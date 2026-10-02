@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1 Nǐ hǎo - Teaching Notes</title>
+    <!-- Using Nunito for standard single-story 'a' and 'g' ideal for Pinyin -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f3e8ff; /* Tailwind purple-100 */
+            color: #1f2937; /* Tailwind gray-800 */
+            line-height: 1.6;
+            font-size: 24px;
+        }
+
+        /* Toggle interaction styles */
+        .pinyin-content {
+            transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            margin-top: 0;
+        }
+        
+        .pinyin-content.active {
+            max-height: 300px; /* Large enough to fit content */
+            opacity: 1;
+            margin-top: 1rem;
+        }
+
+        .english-trigger {
+            transition: color 0.3s ease;
+        }
+
+        .english-trigger.dimmed {
+            color: #9ca3af; /* gray-400 */
+        }
+
+        /* Section visibility */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Nav styles */
+        .nav-btn {
+            transition: all 0.2s ease;
+        }
+        .nav-btn.active {
+            background-color: #4a148c; /* Deep purple */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Utility for emphasizing vocabulary in examples */
+        .vocab-hl {
+            color: #7b1fa2;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#4a148c] text-purple-50 shadow-xl">
+        <!-- Top Bar -->
+        <div class="flex justify-between items-center px-8 py-3 border-b border-[#7b1fa2]">
+            <h1 class="text-3xl font-extrabold tracking-wide">Lesson 1 Nǐ hǎo</h1>
+            <h2 class="text-2xl font-bold text-[#e1bee7]">Teaching Notes</h2>
+        </div>
+        
+        <!-- Navigation Menu -->
+        <nav class="flex flex-wrap justify-center gap-2 bg-[#7b1fa2] p-3 shadow-md">
+            <button onclick="showSection('agenda')" class="nav-btn active px-5 py-2 rounded-lg border border-transparent hover:bg-[#4a148c] text-white text-xl font-bold">Agenda</button>
+            <button onclick="showSection('saying-hello')" class="nav-btn px-5 py-2 rounded-lg border border-transparent hover:bg-[#4a148c] text-[#e1bee7] hover:text-white text-xl font-bold">Saying Hello</button>
+            <button onclick="showSection('text-1')" class="nav-btn px-5 py-2 rounded-lg border border-transparent hover:bg-[#4a148c] text-[#e1bee7] hover:text-white text-xl font-bold">Text 1</button>
+            <button onclick="showSection('greetings')" class="nav-btn px-5 py-2 rounded-lg border border-transparent hover:bg-[#4a148c] text-[#e1bee7] hover:text-white text-xl font-bold">Greetings</button>
+            <button onclick="showSection('text-2')" class="nav-btn px-5 py-2 rounded-lg border border-transparent hover:bg-[#4a148c] text-[#e1bee7] hover:text-white text-xl font-bold">Text 2</button>
+            <button onclick="showSection('exercises')" class="nav-btn px-5 py-2 rounded-lg border border-transparent hover:bg-[#4a148c] text-[#e1bee7] hover:text-white text-xl font-bold">Exercises</button>
+            <button onclick="showSection('wrap-up')" class="nav-btn px-5 py-2 rounded-lg border border-transparent hover:bg-[#4a148c] text-[#e1bee7] hover:text-white text-xl font-bold">Wrap-up</button>
+        </nav>
+    </header>
+
+    <main class="pt-40 pb-20 px-10 max-w-7xl mx-auto">
+
+        <section id="agenda" class="page-section active">
+            <div class="bg-white rounded-3xl p-12 shadow-2xl border-t-[12px] border-[#7b1fa2]">
+                <div class="flex justify-between items-center mb-10">
+                    <h2 class="text-6xl font-extrabold text-[#4a148c]">Agenda</h2>
+                    <span class="bg-[#e1bee7] text-[#4a148c] px-5 py-2 rounded-full text-2xl font-bold">Pg 3-14</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+                    <div class="flex items-center space-x-6 bg-purple-50 p-6 rounded-2xl">
+                        <div class="w-16 h-16 rounded-full bg-[#7b1fa2] flex items-center justify-center text-white font-bold text-3xl shrink-0">1</div>
+                        <p class="text-3xl font-semibold text-gray-800">Saying Hello<br><span class="text-2xl text-gray-500 font-normal">Vocab & Grammar</span></p>
+                    </div>
+                    <div class="flex items-center space-x-6 bg-purple-50 p-6 rounded-2xl">
+                        <div class="w-16 h-16 rounded-full bg-[#7b1fa2] flex items-center justify-center text-white font-bold text-3xl shrink-0">2</div>
+                        <p class="text-3xl font-semibold text-gray-800">Text 1<br><span class="text-2xl text-gray-500 font-normal">Dialogue Practice</span></p>
+                    </div>
+                    <div class="flex items-center space-x-6 bg-purple-50 p-6 rounded-2xl">
+                        <div class="w-16 h-16 rounded-full bg-[#7b1fa2] flex items-center justify-center text-white font-bold text-3xl shrink-0">3</div>
+                        <p class="text-3xl font-semibold text-gray-800">Greetings<br><span class="text-2xl text-gray-500 font-normal">Vocab & Grammar</span></p>
+                    </div>
+                    <div class="flex items-center space-x-6 bg-purple-50 p-6 rounded-2xl">
+                        <div class="w-16 h-16 rounded-full bg-[#7b1fa2] flex items-center justify-center text-white font-bold text-3xl shrink-0">4</div>
+                        <p class="text-3xl font-semibold text-gray-800">Text 2, Exercises & Wrap-up</p>
+                    </div>
+                </div>
+
+                <div class="mt-16 bg-[#fff3e0] border-l-8 border-[#ff9800] p-8 rounded-r-2xl shadow-sm">
+                    <h3 class="text-3xl font-bold text-[#e65100] mb-3 flex items-center"><span class="text-4xl mr-3">📌</span> Teacher's Reminder</h3>
+                    <p class="text-2xl text-gray-800">Please turn to pages 4 and 5 in your textbook, and <strong>number the dialogue lines</strong> for Text 1 and Text 2 to prepare for our reading and explanation.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="saying-hello" class="page-section">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-5xl font-extrabold text-[#4a148c]">Saying Hello</h2>
+                <div class="flex space-x-4">
+                    <span class="bg-[#e1bee7] text-[#4a148c] px-5 py-2 rounded-full text-2xl font-bold">Pg 4 & 10</span>
+                </div>
+            </div>
+
+            <!-- Vocabulary Table -->
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-12 border border-purple-100">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-[#7b1fa2] text-white text-2xl">
+                            <th class="p-6 w-20 text-center font-bold">#</th>
+                            <th class="p-6 font-bold w-1/4">Pinyin</th>
+                            <th class="p-6 font-bold w-1/4">English</th>
+                            <th class="p-6 font-bold">Collocation & Example</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-purple-100 text-2xl">
+                        <tr class="hover:bg-purple-50 transition-colors">
+                            <td class="p-6 text-center font-bold text-[#9c27b0]">1</td>
+                            <td class="p-6 font-bold text-4xl text-[#4a148c]">nǐ</td>
+                            <td class="p-6 flex items-center space-x-3 text-gray-700"><span>you</span> <span class="text-4xl">👤</span></td>
+                            <td class="p-6 text-gray-600">
+                                <div><span class="vocab-hl">nǐ</span> hǎo</div>
+                                <div><span class="vocab-hl">Nǐ</span> hǎo!</div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition-colors bg-purple-50/40">
+                            <td class="p-6 text-center font-bold text-[#9c27b0]">2</td>
+                            <td class="p-6 font-bold text-4xl text-[#4a148c]">hǎo</td>
+                            <td class="p-6 text-gray-700">good, well, fine, OK <span class="text-4xl ml-2">👍</span></td>
+                            <td class="p-6 text-gray-600">
+                                <div>hěn <span class="vocab-hl">hǎo</span></div>
+                                <div>Wǒ hěn <span class="vocab-hl">hǎo</span>.</div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition-colors">
+                            <td class="p-6 text-center font-bold text-[#9c27b0]">3</td>
+                            <td class="p-6 font-bold text-4xl text-[#4a148c]">Lù Yǔpíng</td>
+                            <td class="p-6 text-gray-500 italic">name of a Chinese reporter <span class="text-4xl ml-2 not-italic">👦</span></td>
+                            <td class="p-6 text-gray-600">
+                                <div><span class="vocab-hl">Lù Yǔpíng</span>, nǐ hǎo.</div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition-colors bg-purple-50/40">
+                            <td class="p-6 text-center font-bold text-[#9c27b0]">4</td>
+                            <td class="p-6 font-bold text-4xl text-[#4a148c]">Lìbō</td>
+                            <td class="p-6 text-gray-500 italic">name of a Canadian student <span class="text-4xl ml-2 not-italic">👱</span></td>
+                            <td class="p-6 text-gray-600">
+                                <div><span class="vocab-hl">Lìbō</span>, nǐ hǎo.</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Grammar Block -->
+            <div class="bg-gradient-to-r from-purple-100 to-purple-50 p-10 rounded-3xl border-l-[12px] border-[#4a148c] shadow-lg">
+                <h3 class="text-4xl font-extrabold text-[#4a148c] mb-8 flex items-center">
+                    <span class="mr-4 text-5xl">💡</span> Third-tone Sandhi
+                </h3>
+                <div class="grid grid-cols-2 gap-10">
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-purple-100 flex flex-col justify-center items-center">
+                        <p class="text-gray-500 font-bold mb-6 text-2xl uppercase tracking-widest text-center">The Rule</p>
+                        <div class="flex items-center justify-center space-x-4 mb-4">
+                            <span class="bg-[#e1bee7] px-5 py-3 rounded-xl text-[#4a148c] font-bold text-3xl">3rd tone</span> 
+                            <span class="text-4xl font-bold text-gray-400">+</span> 
+                            <span class="bg-[#e1bee7] px-5 py-3 rounded-xl text-[#4a148c] font-bold text-3xl">3rd tone</span>
+                        </div>
+                        <div class="text-6xl text-[#9c27b0] my-2">⬇</div>
+                        <div class="flex items-center justify-center space-x-4 mt-4">
+                            <span class="bg-[#4a148c] px-5 py-3 rounded-xl text-white font-bold text-3xl shadow-md transform scale-110">2nd tone</span> 
+                            <span class="text-4xl font-bold text-gray-400">+</span> 
+                            <span class="bg-[#e1bee7] px-5 py-3 rounded-xl text-[#4a148c] font-bold text-3xl">3rd tone</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-purple-100 flex flex-col justify-center pl-10">
+                        <div class="mb-10">
+                            <p class="text-gray-400 text-2xl uppercase tracking-widest font-bold mb-2">Written Form (Unchanged):</p>
+                            <p class="text-5xl font-extrabold text-gray-800 tracking-wide">nǐ hǎo</p>
+                        </div>
+                        <div class="border-l-8 border-[#4a148c] pl-6 py-2 bg-purple-50 rounded-r-xl">
+                            <p class="text-[#7b1fa2] text-2xl uppercase tracking-widest font-bold mb-2">Spoken Form (How we say it):</p>
+                            <p class="text-5xl font-extrabold text-[#4a148c] tracking-wide">ní hǎo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="text-1" class="page-section">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-5xl font-extrabold text-[#4a148c]">Text 1</h2>
+                <span class="bg-[#e1bee7] text-[#4a148c] px-5 py-2 rounded-full text-2xl font-bold">Pg 4</span>
+            </div>
+            
+            <div class="bg-white rounded-3xl p-8 mb-10 shadow-sm border-l-8 border-[#7b1fa2]">
+                <p class="text-2xl text-gray-700 font-bold"><span class="text-3xl mr-2">🗣️</span> Note: <span class="font-normal">You can say a person's name then hello, or hello then the person's name.</span></p>
+            </div>
+
+            <p class="text-center text-gray-500 mb-8 font-bold text-2xl bg-purple-100 py-3 rounded-full shadow-inner inline-block px-8 w-full">Click on the English lines to reveal the Pinyin dialogue.</p>
+
+            <div class="space-y-6">
+                <!-- Dialogue Line 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-purple-100 cursor-pointer hover:shadow-xl transition-shadow" onclick="toggleDialogue(this)">
+                    <div class="flex justify-between items-center">
+                        <p class="english-trigger text-black font-bold text-3xl">1 Lù Yǔpíng: Hello, Libo.</p>
+                        <span class="text-[#7b1fa2] text-3xl indicator">▼</span>
+                    </div>
+                    <div class="pinyin-content">
+                        <p class="text-5xl text-[#4a148c] font-extrabold tracking-wide pt-4 border-t border-purple-100">
+                            Lìbō, nǐ hǎo.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Dialogue Line 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-purple-100 cursor-pointer hover:shadow-xl transition-shadow" onclick="toggleDialogue(this)">
+                    <div class="flex justify-between items-center">
+                        <p class="english-trigger text-black font-bold text-3xl">2 Lìbō: Hello, Lu Yuping.</p>
+                        <span class="text-[#7b1fa2] text-3xl indicator">▼</span>
+                    </div>
+                    <div class="pinyin-content">
+                        <p class="text-5xl text-[#4a148c] font-extrabold tracking-wide pt-4 border-t border-purple-100">
+                            Nǐ hǎo, Lù Yǔpíng.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="greetings" class="page-section">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-5xl font-extrabold text-[#4a148c]">Greetings</h2>
+                <span class="bg-[#e1bee7] text-[#4a148c] px-5 py-2 rounded-full text-2xl font-bold">Pg 5</span>
+            </div>
+
+            <!-- Vocabulary Table -->
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-12 border border-purple-100">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-[#7b1fa2] text-white text-2xl">
+                            <th class="p-6 w-20 text-center font-bold">#</th>
+                            <th class="p-6 font-bold w-1/4">Pinyin</th>
+                            <th class="p-6 font-bold w-1/4">English</th>
+                            <th class="p-6 font-bold">Collocation & Example</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-purple-100 text-2xl">
+                        <tr class="hover:bg-purple-50 transition-colors">
+                            <td class="p-6 text-center font-bold text-[#9c27b0]">1</td>
+                            <td class="p-6 font-bold text-4xl text-[#4a148c]">ma</td>
+                            <td class="p-6 text-gray-500 italic">particle for yes-no question <span class="text-4xl ml-2 not-italic">❓</span></td>
+                            <td class="p-6 text-gray-600">
+                                <div>Nǐ hǎo <span class="vocab-hl">ma</span>?</div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition-colors bg-purple-50/40">
+                            <td class="p-6 text-center font-bold text-[#9c27b0]">2</td>
+                            <td class="p-6 font-bold text-4xl text-[#4a148c]">wǒ</td>
+                            <td class="p-6 text-gray-700">I, me <span class="text-4xl ml-2">🙋</span></td>
+                            <td class="p-6 text-gray-600">
+                                <div><span class="vocab-hl">Wǒ</span> hěn hǎo.</div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition-colors">
+                            <td class="p-6 text-center font-bold text-[#9c27b0]">3</td>
+                            <td class="p-6 font-bold text-4xl text-[#4a148c]">hěn</td>
+                            <td class="p-6 text-gray-700">very <span class="text-4xl ml-2">💪</span></td>
+                            <td class="p-6 text-gray-600">
+                                <div>Wǒ <span class="vocab-hl">hěn</span> hǎo.</div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition-colors bg-purple-50/40">
+                            <td class="p-6 text-center font-bold text-[#9c27b0]">4</td>
+                            <td class="p-6 font-bold text-4xl text-[#4a148c]">ne</td>
+                            <td class="p-6 text-gray-500 italic">particle for bounce-back questions <span class="text-4xl ml-2 not-italic">↩️</span></td>
+                            <td class="p-6 text-gray-600">
+                                <div>Nǐ <span class="vocab-hl">ne</span>?</div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition-colors">
+                            <td class="p-6 text-center font-bold text-[#9c27b0]">5</td>
+                            <td class="p-6 font-bold text-4xl text-[#4a148c]">yě</td>
+                            <td class="p-6 text-gray-700">too, also <span class="text-4xl ml-2">👯</span></td>
+                            <td class="p-6 text-gray-600">
+                                <div>Wǒ <span class="vocab-hl">yě</span> hěn hǎo.</div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition-colors bg-purple-50/40">
+                            <td class="p-6 text-center font-bold text-[#9c27b0]">6</td>
+                            <td class="p-6 font-bold text-4xl text-[#4a148c]">Lín Nà</td>
+                            <td class="p-6 text-gray-500 italic">name of a British student <span class="text-4xl ml-2 not-italic">👩</span></td>
+                            <td class="p-6 text-gray-600">
+                                <div><span class="vocab-hl">Lín Nà</span>, nǐ hǎo.</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Grammar Section -->
+            <div class="grid grid-cols-1 gap-10">
+                <!-- Word Order & hěn -->
+                <div class="bg-white p-10 rounded-3xl border-t-[12px] border-[#4a148c] shadow-lg">
+                    <h3 class="text-4xl font-extrabold text-[#4a148c] mb-6 border-b-2 border-purple-100 pb-4">Word Order & Adverb "hěn"</h3>
+                    
+                    <div class="flex items-center justify-center space-x-4 mb-8 bg-purple-50 py-6 rounded-2xl border border-purple-200">
+                        <span class="bg-[#e1bee7] text-[#4a148c] px-6 py-3 rounded-xl font-bold text-3xl shadow-sm">Subject (S)</span>
+                        <span class="text-4xl text-purple-400 font-bold">+</span>
+                        <span class="bg-[#4a148c] text-white px-6 py-3 rounded-xl font-bold text-3xl shadow-md">Adverb (adv)</span>
+                        <span class="text-4xl text-purple-400 font-bold">+</span>
+                        <span class="bg-[#e1bee7] text-[#4a148c] px-6 py-3 rounded-xl font-bold text-3xl shadow-sm">Adjective (A)</span>
+                    </div>
+                    
+                    <p class="text-6xl text-center font-extrabold tracking-wide my-8 text-gray-800">
+                        Wǒ + <span class="text-[#9c27b0] bg-purple-100 px-4 py-2 rounded-xl">hěn</span> + hǎo.
+                    </p>
+                    
+                    <div class="bg-[#fff3e0] border-l-8 border-[#ff9800] p-6 rounded-r-xl shadow-sm">
+                        <p class="text-2xl text-gray-800">
+                            <span class="font-extrabold text-[#e65100]">Note:</span> Even when you are not "very" good, Chinese sentence structure prefers adding <span class="font-bold text-[#e65100]">hěn</span> in front of adjectives like hǎo.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-10">
+                    <!-- Adverb yě -->
+                    <div class="bg-white p-10 rounded-3xl border-l-[12px] border-[#7b1fa2] shadow-lg">
+                        <h3 class="text-3xl font-extrabold text-[#4a148c] mb-6">The Adverb "yě"</h3>
+                        <p class="text-gray-700 mb-8 text-2xl leading-relaxed">The adverb <span class="font-extrabold text-[#9c27b0] text-3xl bg-purple-100 px-2 rounded">yě</span> goes <span class="underline decoration-[#9c27b0] decoration-4 font-bold text-black">BEFORE</span> the whole situation (adverb + adjective). It never goes inside or at the end.</p>
+                        <div class="bg-purple-50 p-6 rounded-2xl text-center border border-purple-200">
+                            <p class="text-4xl font-extrabold tracking-wide text-gray-800">
+                                Wǒ + <span class="text-white bg-[#9c27b0] px-4 py-1 rounded-lg shadow-sm">yě</span> + hěn hǎo.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Particles -->
+                    <div class="bg-white p-10 rounded-3xl border-l-[12px] border-[#9c27b0] shadow-lg">
+                        <h3 class="text-3xl font-extrabold text-[#4a148c] mb-6">Particles: "ma" & "ne"</h3>
+                        <div class="space-y-6">
+                            <div class="bg-purple-50 p-6 rounded-2xl border border-purple-200">
+                                <p class="font-extrabold text-[#4a148c] text-3xl mb-2 flex items-center"><span class="bg-[#e1bee7] px-3 py-1 rounded-lg mr-3">ma</span> Yes/No Question</p>
+                                <p class="text-gray-700 text-2xl mb-4">Always placed at the very end of the sentence.</p>
+                                <p class="text-4xl font-extrabold text-gray-800">Nǐ hǎo <span class="text-[#9c27b0]">ma</span>?</p>
+                            </div>
+                            <div class="bg-purple-50 p-6 rounded-2xl border border-purple-200">
+                                <p class="font-extrabold text-[#4a148c] text-3xl mb-2 flex items-center"><span class="bg-[#e1bee7] px-3 py-1 rounded-lg mr-3">ne</span> Bounce-back Question</p>
+                                <p class="text-gray-700 text-2xl mb-4">Used for elliptical "And you?" questions.</p>
+                                <p class="text-4xl font-extrabold text-gray-800">Nǐ <span class="text-[#9c27b0]">ne</span>?</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="text-2" class="page-section">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-5xl font-extrabold text-[#4a148c]">Text 2</h2>
+                <span class="bg-[#e1bee7] text-[#4a148c] px-5 py-2 rounded-full text-2xl font-bold">Pg 5</span>
+            </div>
+            
+            <p class="text-center text-gray-500 mb-8 font-bold text-2xl bg-purple-100 py-3 rounded-full shadow-inner inline-block px-8 w-full">Click on the English lines to reveal the Pinyin dialogue.</p>
+
+            <div class="space-y-6">
+                <!-- Dialogue Line 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-purple-100 cursor-pointer hover:shadow-xl transition-shadow" onclick="toggleDialogue(this)">
+                    <div class="flex justify-between items-center">
+                        <p class="english-trigger text-black font-bold text-3xl">1 Lìbō: Hi Lin Na, how are you?</p>
+                        <span class="text-[#7b1fa2] text-3xl indicator">▼</span>
+                    </div>
+                    <div class="pinyin-content">
+                        <p class="text-5xl text-[#4a148c] font-extrabold tracking-wide pt-4 border-t border-purple-100">
+                            Lín Nà, nǐ hǎo ma?
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Dialogue Line 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-purple-100 cursor-pointer hover:shadow-xl transition-shadow" onclick="toggleDialogue(this)">
+                    <div class="flex justify-between items-center">
+                        <p class="english-trigger text-black font-bold text-3xl">2 Lín Nà: I'm fine, and you?</p>
+                        <span class="text-[#7b1fa2] text-3xl indicator">▼</span>
+                    </div>
+                    <div class="pinyin-content">
+                        <p class="text-5xl text-[#4a148c] font-extrabold tracking-wide pt-4 border-t border-purple-100">
+                            Wǒ hěn hǎo, nǐ ne?
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Dialogue Line 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-purple-100 cursor-pointer hover:shadow-xl transition-shadow" onclick="toggleDialogue(this)">
+                    <div class="flex justify-between items-center">
+                        <p class="english-trigger text-black font-bold text-3xl">3 Lìbō: I'm fine too.</p>
+                        <span class="text-[#7b1fa2] text-3xl indicator">▼</span>
+                    </div>
+                    <div class="pinyin-content">
+                        <p class="text-5xl text-[#4a148c] font-extrabold tracking-wide pt-4 border-t border-purple-100">
+                            Yě hěn hǎo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="exercises" class="page-section">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-5xl font-extrabold text-[#4a148c]">Exercises</h2>
+                <span class="bg-[#e1bee7] text-[#4a148c] px-5 py-2 rounded-full text-2xl font-bold">Pg 8</span>
+            </div>
+
+            <p class="text-center text-gray-500 mb-8 font-bold text-2xl bg-purple-100 py-3 rounded-full shadow-inner inline-block px-8 w-full">Click on the English lines to reveal the Pinyin answers.</p>
+
+            <div class="space-y-12">
+                
+                <!-- Exercise 1 -->
+                <div class="bg-white rounded-3xl p-10 shadow-lg border-l-[12px] border-[#4a148c]">
+                    <h3 class="text-3xl font-extrabold text-[#4a148c] mb-6 tracking-wide">1. Complete the following dialogue</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-purple-50 p-6 rounded-2xl border border-purple-100 cursor-pointer hover:bg-purple-100 transition-colors" onclick="toggleDialogue(this)">
+                            <div class="flex justify-between items-center">
+                                <p class="english-trigger text-black font-bold text-2xl">Lín Nà: Lìbō, hello!</p>
+                                <span class="text-[#7b1fa2] text-2xl indicator">▼</span>
+                            </div>
+                            <div class="pinyin-content">
+                                <p class="text-4xl text-[#4a148c] font-extrabold tracking-wide pt-3 border-t border-purple-200">Lìbō, nǐ hǎo!</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-purple-50 p-6 rounded-2xl border border-purple-100 cursor-pointer hover:bg-purple-100 transition-colors" onclick="toggleDialogue(this)">
+                            <div class="flex justify-between items-center">
+                                <p class="english-trigger text-black font-bold text-2xl">Lìbō: Hello, Lín Nà.</p>
+                                <span class="text-[#7b1fa2] text-2xl indicator">▼</span>
+                            </div>
+                            <div class="pinyin-content">
+                                <p class="text-4xl text-[#4a148c] font-extrabold tracking-wide pt-3 border-t border-purple-200">Nǐ hǎo, Lín Nà.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 2 -->
+                <div class="bg-white rounded-3xl p-10 shadow-lg border-l-[12px] border-[#7b1fa2]">
+                    <h3 class="text-3xl font-extrabold text-[#4a148c] mb-6 tracking-wide">2. Make dialogues based on the pictures</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Picture 1 -->
+                        <div class="bg-purple-50 p-6 rounded-2xl border border-purple-200">
+                            <p class="font-extrabold text-gray-500 text-xl uppercase tracking-widest mb-4">Picture 1</p>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-xl border border-purple-100 cursor-pointer hover:shadow-md transition-shadow" onclick="toggleDialogue(this)">
+                                    <div class="flex justify-between items-center">
+                                        <p class="english-trigger text-black font-bold text-xl">A: Teacher Chen, hello.</p>
+                                        <span class="text-[#7b1fa2] indicator">▼</span>
+                                    </div>
+                                    <div class="pinyin-content">
+                                        <p class="text-3xl text-[#4a148c] font-extrabold pt-2">Chén lǎoshī, nǐ hǎo.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl border border-purple-100 cursor-pointer hover:shadow-md transition-shadow" onclick="toggleDialogue(this)">
+                                    <div class="flex justify-between items-center">
+                                        <p class="english-trigger text-black font-bold text-xl">B: Hello, Lu Yuping.</p>
+                                        <span class="text-[#7b1fa2] indicator">▼</span>
+                                    </div>
+                                    <div class="pinyin-content">
+                                        <p class="text-3xl text-[#4a148c] font-extrabold pt-2">Nǐ hǎo, Lù Yǔpíng.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Picture 2 -->
+                        <div class="bg-purple-50 p-6 rounded-2xl border border-purple-200">
+                            <p class="font-extrabold text-gray-500 text-xl uppercase tracking-widest mb-4">Picture 2</p>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-xl border border-purple-100 cursor-pointer hover:shadow-md transition-shadow" onclick="toggleDialogue(this)">
+                                    <div class="flex justify-between items-center">
+                                        <p class="english-trigger text-black font-bold text-xl">A: Hello, Libo.</p>
+                                        <span class="text-[#7b1fa2] indicator">▼</span>
+                                    </div>
+                                    <div class="pinyin-content">
+                                        <p class="text-3xl text-[#4a148c] font-extrabold pt-2">Nǐ hǎo, Lìbō.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl border border-purple-100 cursor-pointer hover:shadow-md transition-shadow" onclick="toggleDialogue(this)">
+                                    <div class="flex justify-between items-center">
+                                        <p class="english-trigger text-black font-bold text-xl">B: Lin Na, hello.</p>
+                                        <span class="text-[#7b1fa2] indicator">▼</span>
+                                    </div>
+                                    <div class="pinyin-content">
+                                        <p class="text-3xl text-[#4a148c] font-extrabold pt-2">Lín Nà, nǐ hǎo.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 3 -->
+                <div class="bg-white rounded-3xl p-10 shadow-lg border-l-[12px] border-[#9c27b0]">
+                    <h3 class="text-3xl font-extrabold text-[#4a148c] mb-6 tracking-wide">3. Complete the following dialogue</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-purple-50 p-6 rounded-2xl border border-purple-100 cursor-pointer hover:bg-purple-100 transition-colors" onclick="toggleDialogue(this)">
+                            <div class="flex justify-between items-center">
+                                <p class="english-trigger text-black font-bold text-2xl">Mǎlì: How are you?</p>
+                                <span class="text-[#7b1fa2] text-2xl indicator">▼</span>
+                            </div>
+                            <div class="pinyin-content">
+                                <p class="text-4xl text-[#4a148c] font-extrabold tracking-wide pt-3 border-t border-purple-200">Nǐ hǎo ma?</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-purple-50 p-6 rounded-2xl border border-purple-100 cursor-pointer hover:bg-purple-100 transition-colors" onclick="toggleDialogue(this)">
+                            <div class="flex justify-between items-center">
+                                <p class="english-trigger text-black font-bold text-2xl">Lù Yì: I'm fine, and you?</p>
+                                <span class="text-[#7b1fa2] text-2xl indicator">▼</span>
+                            </div>
+                            <div class="pinyin-content">
+                                <p class="text-4xl text-[#4a148c] font-extrabold tracking-wide pt-3 border-t border-purple-200">Wǒ hěn hǎo, nǐ ne?</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-purple-50 p-6 rounded-2xl border border-purple-100 cursor-pointer hover:bg-purple-100 transition-colors" onclick="toggleDialogue(this)">
+                            <div class="flex justify-between items-center">
+                                <p class="english-trigger text-black font-bold text-2xl">Mǎlì: I'm fine too.</p>
+                                <span class="text-[#7b1fa2] text-2xl indicator">▼</span>
+                            </div>
+                            <div class="pinyin-content">
+                                <p class="text-4xl text-[#4a148c] font-extrabold tracking-wide pt-3 border-t border-purple-200">Wǒ yě hěn hǎo.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="wrap-up" class="page-section">
+            <div class="bg-[#4a148c] rounded-3xl p-16 shadow-2xl text-white border-4 border-[#7b1fa2]">
+                <h2 class="text-6xl font-extrabold mb-12 text-center tracking-wide text-[#e1bee7]">Lesson 1 Wrap-up</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Pronunciation -->
+                    <div class="bg-white/10 p-8 rounded-2xl backdrop-blur-sm border border-white/20">
+                        <h3 class="text-3xl font-extrabold mb-4 text-[#e1bee7] flex items-center"><span class="text-4xl mr-3">🗣️</span> Pronunciation</h3>
+                        <p class="text-2xl mb-4">Third-tone sandhi rule:</p>
+                        <div class="bg-black/20 p-4 rounded-xl text-center">
+                            <span class="line-through text-gray-400 mr-4 text-3xl">nǐ hǎo</span>
+                            <span class="text-5xl font-extrabold text-white">ní hǎo</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Structure -->
+                    <div class="bg-white/10 p-8 rounded-2xl backdrop-blur-sm border border-white/20">
+                        <h3 class="text-3xl font-extrabold mb-4 text-[#e1bee7] flex items-center"><span class="text-4xl mr-3">🧱</span> Structure</h3>
+                        <p class="text-2xl mb-4">Sentence Word Order:</p>
+                        <div class="bg-black/20 p-4 rounded-xl text-center">
+                            <p class="text-4xl font-extrabold text-white">S + adv + A</p>
+                        </div>
+                    </div>
+
+                    <!-- Adverbs -->
+                    <div class="bg-white/10 p-8 rounded-2xl backdrop-blur-sm border border-white/20">
+                        <h3 class="text-3xl font-extrabold mb-4 text-[#e1bee7] flex items-center"><span class="text-4xl mr-3">✨</span> Adverbs</h3>
+                        <div class="space-y-4">
+                            <p class="text-3xl font-bold"><span class="bg-[#9c27b0] px-3 py-1 rounded-lg mr-3">hěn</span> <span class="font-normal text-2xl text-gray-200">very (before Adj)</span></p>
+                            <p class="text-3xl font-bold"><span class="bg-[#9c27b0] px-3 py-1 rounded-lg mr-3">yě</span> <span class="font-normal text-2xl text-gray-200">also, too (before S+Adj)</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Particles -->
+                    <div class="bg-white/10 p-8 rounded-2xl backdrop-blur-sm border border-white/20">
+                        <h3 class="text-3xl font-extrabold mb-4 text-[#e1bee7] flex items-center"><span class="text-4xl mr-3">❓</span> Particles</h3>
+                        <div class="space-y-4">
+                            <p class="text-3xl font-bold"><span class="bg-blue-600 px-3 py-1 rounded-lg mr-3">ma</span> <span class="font-normal text-2xl text-gray-200">yes-no question</span></p>
+                            <p class="text-3xl font-bold"><span class="bg-green-600 px-3 py-1 rounded-lg mr-3">ne</span> <span class="font-normal text-2xl text-gray-200">bounce-back question</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-16 text-center border-t border-white/20 pt-8">
+                    <p class="text-4xl font-extrabold text-[#e1bee7]">Xièxie! (Thank you!)</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Navigation Logic
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons and reset styles
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('text-[#e1bee7]'); 
+                btn.classList.remove('text-white');
+            });
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked button
+            const activeBtn = document.querySelector(`button[onclick="showSection('${sectionId}')"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active', 'text-white');
+                activeBtn.classList.remove('text-[#e1bee7]');
+            }
+
+            // Scroll to top to ensure visibility
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Interactive Toggle Logic (English -> Pinyin)
+        function toggleDialogue(element) {
+            const englishText = element.querySelector('.english-trigger');
+            const pinyinText = element.querySelector('.pinyin-content');
+            const indicator = element.querySelector('.indicator');
+            
+            if (pinyinText.classList.contains('active')) {
+                // Collapse
+                pinyinText.classList.remove('active');
+                englishText.classList.remove('dimmed');
+                indicator.textContent = '▼';
+                indicator.style.transform = "rotate(0deg)";
+            } else {
+                // Expand
+                pinyinText.classList.add('active');
+                englishText.classList.add('dimmed');
+                indicator.textContent = '▲';
+            }
+        }
+    </script>
+</body>
+</html>
