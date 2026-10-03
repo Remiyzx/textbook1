@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lesson 1 Nǐ hǎo - Teaching Notes</title>
+    <!-- Google Font 'Andika' for correct Pinyin orthography (single-story a and g) -->
     <link href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -12,76 +13,139 @@
             font-family: 'Andika', sans-serif;
             background-color: #f5f3ff; /* Tailwind purple-50 */
             color: #1f2937; /* Tailwind gray-800 */
+            font-size: 22px; /* Reduced from 32px: cleaner, yet projector-friendly */
             line-height: 1.6;
-            font-size: 32px; /* Extra large base font size for projector */
             overflow-x: hidden;
-            overflow-y: scroll; 
+            overflow-y: scroll;
         }
 
-        /* Fixed Navigation Heights & Spacing */
+        /* Fixed Navigation Layout */
         header {
-            height: 220px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: linear-gradient(135deg, #4c1d95, #3b0764); /* Elegant dark purple gradient */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-bottom: 4px solid #7c3aed;
         }
         main {
-            padding-top: 240px; 
+            /* Provide enough padding so content isn't hidden under the 2-row sticky header */
+            padding-top: 200px; 
+            padding-bottom: 100px;
             min-height: 100vh;
         }
 
-        /* Interactive Text Toggle Styles */
+        .nav-btn {
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            font-size: 1.1rem;
+            padding: 0.4rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid transparent;
+            font-weight: 700;
+            color: #d8b4fe;
+        }
+        .nav-btn:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .nav-btn.active {
+            background-color: #7c3aed; 
+            color: white;
+            border-color: #c4b5fd;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .text-toggle-box {
+            transition: all 0.3s ease;
+            background-color: white;
+            border: 2px solid #ddd6fe;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .text-toggle-box:hover {
+            border-color: #a855f7;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+        }
+        
+        .english-line {
+            color: #6b7280;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+        .english-line.expanded {
+            color: #9ca3af;
+        }
+
         .pinyin-reveal-container {
-            transition: all 0.4s ease-in-out;
             max-height: 0;
             opacity: 0;
             overflow: hidden;
-            margin-top: 0;
+            transition: all 0.4s ease;
         }
-        
         .pinyin-reveal-container.active {
-            max-height: 500px; 
+            max-height: 300px; 
             opacity: 1;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px dashed #e9d5ff;
+            /* PINYIN DESCENDERS FIX: Ensures p, g, y tails are not cut off */
+            padding-bottom: 12px;
+            line-height: 1.8;
+            color: #5b21b6;
+            font-size: 1.4rem;
+            font-weight: 700;
         }
 
-        .english-line {
-            transition: all 0.3s ease;
-            cursor: pointer;
-            color: #6b7280; /* Initial small, grey translation */
-            font-size: 36px;
-        }
-
-        .english-line.expanded {
-            color: #9ca3af; /* Dim further when expanded to emphasize Pinyin */
-        }
-
-        /* Fill-in-the-blank Exercise Styles */
         .exercise-blank {
             display: inline-block;
-            min-width: 250px;
-            border-bottom: 6px solid #9ca3af; 
+            min-width: 180px;
+            border-bottom: 4px solid #9ca3af; 
             color: transparent; 
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: center;
-            padding: 0 15px;
-            margin: 0 10px;
+            padding: 0 10px;
+            margin: 0 5px;
             font-weight: 700;
         }
-
         .exercise-blank.revealed {
             color: #6d28d9; 
             border-bottom-color: #6d28d9;
             background-color: #f3e8ff; 
-            border-radius: 8px 8px 0 0;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .pronunciation-box {
+            background-color: white;
+            border: 2px solid #ddd6fe; 
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            font-weight: 700;
+            color: #4c1d95; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .pronunciation-box.highlighted {
+            background-color: #f3e8ff; 
+            border-color: #8b5cf6; 
         }
 
         /* Page Section Transitions */
         .page-section {
             display: none;
-            animation: fadeIn 0.4s ease-out forwards;
+            animation: fadeIn 0.3s ease-out forwards;
             opacity: 0;
-            transform: translateY(15px);
+            transform: translateY(10px);
         }
-
         .page-section.active {
             display: block;
         }
@@ -90,597 +154,649 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Navigation Button Styles */
-        .nav-btn {
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-        .nav-btn.active {
-            background-color: #4c1d95; 
-            color: white;
-            box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.3);
-            border-color: #ddd6fe; 
-        }
-        
-        /* Vocabulary Highlight Color */
+        /* Utility */
         .vocab-hl {
             color: #7c3aed; 
             font-weight: 700;
-        }
-
-        /* Pronunciation Grid Item Styles */
-        .pronunciation-box {
-            background-color: white;
-            border: 3px solid #ddd6fe; 
-            border-radius: 12px;
-            padding: 15px 10px;
-            text-align: center;
-            font-weight: 700;
-            color: #4c1d95; 
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            min-height: 100px;
-        }
-        .pronunciation-box .eng-sub {
-            font-weight: 400;
-            color: #6b7280;
-            font-size: 20px;
-            margin-top: 5px;
-        }
-        .pronunciation-box.highlighted {
-            background-color: #f3e8ff; 
-            border-color: #8b5cf6; 
-        }
-        .empty-box {
-            background-color: transparent;
-            border: none;
-            box-shadow: none;
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <header class="fixed top-0 left-0 right-0 z-50 bg-[#5b21b6] text-purple-50 shadow-xl border-b-8 border-[#4c1d95]">
-        <div class="flex justify-between items-center px-12 py-4 border-b border-[#7c3aed]">
-            <h1 class="text-4xl font-extrabold tracking-wide">Lesson 1 Nǐ hǎo</h1>
-            <h2 class="text-3xl font-bold text-[#ddd6fe]">Teaching Notes</h2>
+    <header>
+        <div class="flex justify-between items-center px-10 py-3 border-b border-purple-800/50">
+            <h1 class="text-2xl font-bold text-white tracking-wide">Lesson 1 Nǐ hǎo</h1>
+            <h2 class="text-xl font-bold text-purple-200">Teaching Notes</h2>
         </div>
         
-        <nav class="flex flex-col items-center justify-center gap-4 bg-[#6d28d9] p-4 shadow-md w-full">
-            <div class="flex flex-wrap justify-center gap-4 w-full">
-                <button onclick="switchTab('agenda')" class="nav-btn active px-6 py-2 rounded-xl border-2 border-transparent hover:bg-[#4c1d95] text-white text-3xl font-bold">Title & Agenda</button>
-                <button onclick="switchTab('vocab-1')" class="nav-btn px-6 py-2 rounded-xl border-2 border-transparent hover:bg-[#4c1d95] text-[#ddd6fe] hover:text-white text-3xl font-bold">Greetings & Names</button>
-                <button onclick="switchTab('text-1')" class="nav-btn px-6 py-2 rounded-xl border-2 border-transparent hover:bg-[#4c1d95] text-[#ddd6fe] hover:text-white text-3xl font-bold">Text 1</button>
-                <button onclick="switchTab('vocab-2')" class="nav-btn px-6 py-2 rounded-xl border-2 border-transparent hover:bg-[#4c1d95] text-[#ddd6fe] hover:text-white text-3xl font-bold">Well-being & Particles</button>
-                <button onclick="switchTab('text-2')" class="nav-btn px-6 py-2 rounded-xl border-2 border-transparent hover:bg-[#4c1d95] text-[#ddd6fe] hover:text-white text-3xl font-bold">Text 2</button>
+        <!-- 2-Row Sticky Menu -->
+        <nav class="flex flex-col items-center justify-center gap-2 p-3 w-full max-w-6xl mx-auto">
+            <div class="flex justify-center gap-3 w-full">
+                <button onclick="switchTab('agenda')" class="nav-btn active">Title & Agenda</button>
+                <button onclick="switchTab('vocab-1')" class="nav-btn">Greetings & Names</button>
+                <button onclick="switchTab('text-1')" class="nav-btn">Text 1</button>
+                <button onclick="switchTab('vocab-2')" class="nav-btn">Well-being & Particles</button>
             </div>
-            <div class="flex flex-wrap justify-center gap-4 w-full">
-                <button onclick="switchTab('exercises')" class="nav-btn px-6 py-2 rounded-xl border-2 border-transparent hover:bg-[#4c1d95] text-[#ddd6fe] hover:text-white text-3xl font-bold">Exercises</button>
-                <button onclick="switchTab('pronunciation')" class="nav-btn px-6 py-2 rounded-xl border-2 border-transparent hover:bg-[#4c1d95] text-[#ddd6fe] hover:text-white text-3xl font-bold">Pronunciation Drills</button>
-                <button onclick="switchTab('wrap-up')" class="nav-btn px-6 py-2 rounded-xl border-2 border-transparent hover:bg-[#4c1d95] text-[#ddd6fe] hover:text-white text-3xl font-bold">Wrap-up</button>
+            <div class="flex justify-center gap-3 w-full">
+                <button onclick="switchTab('text-2')" class="nav-btn">Text 2</button>
+                <button onclick="switchTab('exercises')" class="nav-btn">Exercises</button>
+                <button onclick="switchTab('pronunciation')" class="nav-btn">Pronunciation</button>
+                <button onclick="switchTab('wrap-up')" class="nav-btn">Wrap-up</button>
             </div>
         </nav>
     </header>
 
-    <main class="px-12 max-w-[1600px] mx-auto">
+    <main class="px-8 max-w-[1200px] mx-auto">
 
-        <section id="agenda" class="page-section active pb-20">
-            <div class="bg-white rounded-[40px] p-16 shadow-2xl border-t-[16px] border-[#6d28d9]">
-                <div class="flex justify-between items-center mb-12">
-                    <h2 class="text-7xl font-extrabold text-[#4c1d95]">Title & Agenda</h2>
-                    <span class="bg-[#f3e8ff] text-[#6d28d9] px-8 py-4 rounded-full text-4xl font-bold border-2 border-[#ddd6fe]">Textbook Pg 3-14</span>
+        <section id="agenda" class="page-section active">
+            <div class="bg-white rounded-3xl p-10 shadow-lg border-t-8 border-purple-600">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-4xl font-bold text-purple-900">Title & Agenda</h2>
+                    <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-lg font-bold">Textbook Pg 3-14</span>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-16">
-                    <div class="flex items-center space-x-8 bg-gradient-to-r from-purple-50 to-white p-10 rounded-3xl shadow-md border border-purple-100">
-                        <div class="w-20 h-20 rounded-2xl bg-[#7c3aed] flex items-center justify-center text-white font-bold text-5xl shrink-0 shadow-lg">1</div>
-                        <p class="text-5xl font-bold text-gray-800">Greetings & Names<br><span class="text-3xl text-gray-500 font-semibold mt-2 block">Text 1 Focus</span></p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+                    <div class="flex items-center space-x-6 bg-purple-50 p-6 rounded-2xl border border-purple-100">
+                        <div class="w-12 h-12 rounded-xl bg-purple-600 flex items-center justify-center text-white font-bold text-2xl shrink-0 shadow">1</div>
+                        <p class="text-2xl font-bold text-gray-800">Greetings & Names<br><span class="text-lg text-gray-500 font-normal">Text 1 Focus</span></p>
                     </div>
-                    <div class="flex items-center space-x-8 bg-gradient-to-r from-purple-50 to-white p-10 rounded-3xl shadow-md border border-purple-100">
-                        <div class="w-20 h-20 rounded-2xl bg-[#7c3aed] flex items-center justify-center text-white font-bold text-5xl shrink-0 shadow-lg">2</div>
-                        <p class="text-5xl font-bold text-gray-800">Well-being & Particles<br><span class="text-3xl text-gray-500 font-semibold mt-2 block">Text 2 Focus</span></p>
+                    <div class="flex items-center space-x-6 bg-purple-50 p-6 rounded-2xl border border-purple-100">
+                        <div class="w-12 h-12 rounded-xl bg-purple-600 flex items-center justify-center text-white font-bold text-2xl shrink-0 shadow">2</div>
+                        <p class="text-2xl font-bold text-gray-800">Well-being & Particles<br><span class="text-lg text-gray-500 font-normal">Text 2 Focus</span></p>
                     </div>
-                    <div class="flex items-center space-x-8 bg-gradient-to-r from-purple-50 to-white p-10 rounded-3xl shadow-md border border-purple-100">
-                        <div class="w-20 h-20 rounded-2xl bg-[#7c3aed] flex items-center justify-center text-white font-bold text-5xl shrink-0 shadow-lg">3</div>
-                        <p class="text-5xl font-bold text-gray-800">Interactive Practice<br><span class="text-3xl text-gray-500 font-semibold mt-2 block">Exercises</span></p>
+                    <div class="flex items-center space-x-6 bg-purple-50 p-6 rounded-2xl border border-purple-100">
+                        <div class="w-12 h-12 rounded-xl bg-purple-600 flex items-center justify-center text-white font-bold text-2xl shrink-0 shadow">3</div>
+                        <p class="text-2xl font-bold text-gray-800">Interactive Practice<br><span class="text-lg text-gray-500 font-normal">Exercises</span></p>
                     </div>
-                    <div class="flex items-center space-x-8 bg-gradient-to-r from-purple-50 to-white p-10 rounded-3xl shadow-md border border-purple-100">
-                        <div class="w-20 h-20 rounded-2xl bg-[#7c3aed] flex items-center justify-center text-white font-bold text-5xl shrink-0 shadow-lg">4</div>
-                        <p class="text-5xl font-bold text-gray-800">Phonetics & Review<br><span class="text-3xl text-gray-500 font-semibold mt-2 block">Pronunciation & Wrap-up</span></p>
+                    <div class="flex items-center space-x-6 bg-purple-50 p-6 rounded-2xl border border-purple-100">
+                        <div class="w-12 h-12 rounded-xl bg-purple-600 flex items-center justify-center text-white font-bold text-2xl shrink-0 shadow">4</div>
+                        <p class="text-2xl font-bold text-gray-800">Phonetics & Review<br><span class="text-lg text-gray-500 font-normal">Pronunciation & Wrap-up</span></p>
                     </div>
                 </div>
 
-                <div class="mt-20 bg-[#fdf4ff] border-l-[16px] border-[#d946ef] p-12 rounded-r-[40px] shadow-lg">
-                    <h3 class="text-5xl font-extrabold text-[#a21caf] mb-6 flex items-center"><span class="text-6xl mr-6">📌</span> Teacher's Reminder</h3>
-                    <p class="text-4xl text-gray-800 leading-relaxed font-bold">Please mark the dialogue line numbers in Text 1 and Text 2 for reading and explanation.</p>
+                <div class="mt-12 bg-purple-50 border-l-8 border-purple-500 p-8 rounded-r-2xl shadow-sm">
+                    <h3 class="text-2xl font-bold text-purple-900 mb-3 flex items-center"><span class="text-3xl mr-3">📌</span> Teacher's Reminder</h3>
+                    <p class="text-xl text-gray-700">Please mark the dialogue line numbers (1, 2, 3...) next to Text 1 and Text 2 before starting the lesson!</p>
                 </div>
             </div>
         </section>
 
-        <section id="vocab-1" class="page-section pb-20">
-            <div class="flex justify-between items-center mb-12">
-                <h2 class="text-7xl font-extrabold text-[#4c1d95]">Greetings & Names</h2>
-                <span class="bg-[#ddd6fe] text-[#4c1d95] px-8 py-4 rounded-full text-4xl font-bold shadow-sm">Pg 4</span>
+        <section id="vocab-1" class="page-section">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-4xl font-bold text-purple-900">Greetings & Names</h2>
+                <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-lg font-bold">Pg 4</span>
             </div>
 
-            <div class="bg-white rounded-[40px] shadow-2xl overflow-hidden mb-16 border-4 border-[#ddd6fe]">
+            <!-- Vocab Table -->
+            <div class="bg-white rounded-2xl shadow-md overflow-hidden mb-12 border border-purple-100">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-[#6d28d9] text-white text-4xl">
-                            <th class="p-10 w-28 text-center font-bold">#</th>
-                            <th class="p-10 font-bold w-1/4">Pinyin</th>
-                            <th class="p-10 font-bold w-1/4">English</th>
-                            <th class="p-10 font-bold">Phrase / Example</th>
+                        <tr class="bg-purple-800 text-white text-xl">
+                            <th class="p-5 w-16 text-center">#</th>
+                            <th class="p-5 w-1/4">Pinyin</th>
+                            <th class="p-5 w-1/4">English</th>
+                            <th class="p-5">Phrase / Example</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y-4 divide-[#f3e8ff] text-4xl">
-                        <tr class="hover:bg-purple-50 transition-colors">
-                            <td class="p-10 text-center font-extrabold text-[#a855f7] text-5xl">1</td>
-                            <td class="p-10 font-bold text-6xl text-[#4c1d95]">nǐ</td>
-                            <td class="p-10 text-gray-700">you <span class="inline-block text-5xl ml-4 bg-purple-100 p-3 rounded-2xl">👤</span></td>
-                            <td class="p-10 text-gray-600">
-                                <div class="mb-4"><span class="vocab-hl">nǐ</span> hǎo</div>
+                    <tbody class="divide-y-2 divide-purple-50 text-xl">
+                        <tr class="hover:bg-purple-50/50">
+                            <td class="p-5 text-center font-bold text-purple-500">1</td>
+                            <td class="p-5 font-bold text-2xl text-purple-900">nǐ</td>
+                            <td class="p-5 text-gray-700">you</td>
+                            <td class="p-5 text-gray-600">
                                 <div><span class="vocab-hl">Nǐ</span> hǎo!</div>
                             </td>
                         </tr>
-                        <tr class="bg-[#faf5ff] hover:bg-purple-100 transition-colors">
-                            <td class="p-10 text-center font-extrabold text-[#a855f7] text-5xl">2</td>
-                            <td class="p-10 font-bold text-6xl text-[#4c1d95]">hǎo</td>
-                            <td class="p-10 text-gray-700">good, well, fine, OK <span class="inline-block text-5xl ml-4 bg-purple-100 p-3 rounded-2xl">👍</span></td>
-                            <td class="p-10 text-gray-600">
-                                <div class="mb-4">hěn <span class="vocab-hl">hǎo</span></div>
-                                <div>Wǒ hěn <span class="vocab-hl">hǎo</span>.</div>
+                        <tr class="bg-purple-50/30 hover:bg-purple-50/80">
+                            <td class="p-5 text-center font-bold text-purple-500">2</td>
+                            <td class="p-5 font-bold text-2xl text-purple-900">hǎo</td>
+                            <td class="p-5 text-gray-700">good, well, fine, OK</td>
+                            <td class="p-5 text-gray-600">
+                                <div>hěn <span class="vocab-hl">hǎo</span></div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-purple-50 transition-colors">
-                            <td class="p-10 text-center font-extrabold text-[#a855f7] text-5xl">3</td>
-                            <td class="p-10 font-bold text-6xl text-[#4c1d95]">Lù Yǔpíng</td>
-                            <td class="p-10 text-gray-500 italic text-3xl">name of a Chinese reporter <span class="inline-block text-5xl ml-4 bg-gray-100 p-3 rounded-2xl not-italic">👨‍💼</span></td>
-                            <td class="p-10 text-gray-600">
+                        <tr class="hover:bg-purple-50/50">
+                            <td class="p-5 text-center font-bold text-purple-500">3</td>
+                            <td class="p-5 font-bold text-2xl text-purple-900">Lù Yǔpíng</td>
+                            <td class="p-5 text-gray-500 italic text-lg">name of a Chinese reporter</td>
+                            <td class="p-5 text-gray-600">
                                 <div><span class="vocab-hl">Lù Yǔpíng</span>, nǐ hǎo.</div>
                             </td>
                         </tr>
-                        <tr class="bg-[#faf5ff] hover:bg-purple-100 transition-colors">
-                            <td class="p-10 text-center font-extrabold text-[#a855f7] text-5xl">4</td>
-                            <td class="p-10 font-bold text-6xl text-[#4c1d95]">Lìbō</td>
-                            <td class="p-10 text-gray-500 italic text-3xl">name of a Canadian student <span class="inline-block text-5xl ml-4 bg-gray-100 p-3 rounded-2xl not-italic">👱‍♂️</span></td>
-                            <td class="p-10 text-gray-600">
+                        <tr class="bg-purple-50/30 hover:bg-purple-50/80">
+                            <td class="p-5 text-center font-bold text-purple-500">4</td>
+                            <td class="p-5 font-bold text-2xl text-purple-900">Lìbō</td>
+                            <td class="p-5 text-gray-500 italic text-lg">name of a Canadian student</td>
+                            <td class="p-5 text-gray-600">
                                 <div><span class="vocab-hl">Lìbō</span>, nǐ hǎo.</div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
+            <!-- Third Tone Sandhi -->
+            <div class="bg-white p-8 rounded-2xl shadow-md border-l-8 border-purple-500">
+                <h3 class="text-2xl font-bold text-purple-900 mb-4 flex items-center">
+                    <span class="mr-3 text-3xl">💡</span> Third-tone Sandhi
+                </h3>
+                <div class="flex items-center space-x-6 text-xl text-gray-700">
+                    <div class="bg-purple-50 px-4 py-2 rounded-lg border border-purple-200">
+                        Written: <span class="font-bold text-gray-900 ml-2 text-2xl">nǐ hǎo</span>
+                    </div>
+                    <span class="text-2xl text-purple-400 font-bold">➔</span>
+                    <div class="bg-purple-100 px-4 py-2 rounded-lg border border-purple-300">
+                        Spoken: <span class="font-bold text-purple-800 ml-2 text-2xl">ní hǎo</span>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section id="text-1" class="page-section pb-20">
+        <section id="text-1" class="page-section">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-7xl font-extrabold text-[#4c1d95]">Text 1</h2>
-                <span class="bg-[#ddd6fe] text-[#4c1d95] px-8 py-4 rounded-full text-4xl font-bold shadow-sm">Pg 4</span>
+                <h2 class="text-4xl font-bold text-purple-900">Text 1</h2>
+                <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-lg font-bold">Pg 4</span>
             </div>
             
-            <p class="text-[#6d28d9] mb-12 font-bold text-3xl bg-purple-100 py-4 px-8 rounded-2xl shadow-inner border-2 border-[#ddd6fe] inline-block">
-                Note: You can call a person's name before saying <em>nǐ hǎo</em>, or say <em>nǐ hǎo</em> first.
-            </p>
+            <div class="bg-purple-100 text-purple-900 font-bold text-lg py-3 px-6 rounded-xl shadow-sm border border-purple-200 mb-8 inline-block">
+                Note: You can say the person's name first, then 'Nǐ hǎo', or vice versa.
+            </div>
 
-            <div class="space-y-12">
-                <div class="bg-white p-14 rounded-[40px] shadow-xl border-4 border-[#f3e8ff] cursor-pointer hover:shadow-2xl hover:border-[#ddd6fe] transition-all duration-300" onclick="toggleText(this)">
-                    <div class="flex justify-between items-center">
-                        <p class="english-line font-bold">1. Lù Yǔpíng: Hello, Libo.</p>
-                        <span class="text-[#8b5cf6] text-6xl toggle-icon transition-transform">▼</span>
-                    </div>
-                    <div class="pinyin-reveal-container">
-                        <p class="text-7xl text-[#4c1d95] font-extrabold tracking-wide pt-10 border-t-4 border-[#f3e8ff]">
-                            1. Lù Yǔpíng: <span class="vocab-hl">Lìbō</span>, <span class="vocab-hl">nǐ hǎo</span>.
-                        </p>
+            <div class="space-y-6">
+                <!-- Dialogue Line 1 -->
+                <div class="flex items-start gap-4">
+                    <div class="font-bold text-purple-900 text-xl whitespace-nowrap pt-4 w-36 text-right">1. Lù Yǔpíng:</div>
+                    <div class="text-toggle-box group" onclick="toggleText(this)">
+                        <div class="flex justify-between items-center">
+                            <p class="english-line">Hello, Libo. <span class="text-sm font-normal ml-2 opacity-50 group-hover:opacity-100 transition-opacity">(click to expand)</span></p>
+                            <span class="text-purple-400 text-xl toggle-icon transition-transform">▼</span>
+                        </div>
+                        <div class="pinyin-reveal-container">
+                            <span class="vocab-hl">Lìbō</span>, <span class="vocab-hl">nǐ hǎo</span>.
+                        </div>
                     </div>
                 </div>
 
-                <div class="bg-white p-14 rounded-[40px] shadow-xl border-4 border-[#f3e8ff] cursor-pointer hover:shadow-2xl hover:border-[#ddd6fe] transition-all duration-300" onclick="toggleText(this)">
-                    <div class="flex justify-between items-center">
-                        <p class="english-line font-bold">2. Lìbō: Hello, Lu Yuping.</p>
-                        <span class="text-[#8b5cf6] text-6xl toggle-icon transition-transform">▼</span>
-                    </div>
-                    <div class="pinyin-reveal-container">
-                        <p class="text-7xl text-[#4c1d95] font-extrabold tracking-wide pt-10 border-t-4 border-[#f3e8ff]">
-                            2. Lìbō: <span class="vocab-hl">Nǐ hǎo</span>, <span class="vocab-hl">Lù Yǔpíng</span>.
-                        </p>
+                <!-- Dialogue Line 2 -->
+                <div class="flex items-start gap-4">
+                    <div class="font-bold text-purple-900 text-xl whitespace-nowrap pt-4 w-36 text-right">2. Lìbō:</div>
+                    <div class="text-toggle-box group" onclick="toggleText(this)">
+                        <div class="flex justify-between items-center">
+                            <p class="english-line">Hello, Lu Yuping. <span class="text-sm font-normal ml-2 opacity-50 group-hover:opacity-100 transition-opacity">(click to expand)</span></p>
+                            <span class="text-purple-400 text-xl toggle-icon transition-transform">▼</span>
+                        </div>
+                        <div class="pinyin-reveal-container">
+                            <span class="vocab-hl">Nǐ hǎo</span>, <span class="vocab-hl">Lù Yǔpíng</span>.
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="vocab-2" class="page-section pb-20">
-            <div class="flex justify-between items-center mb-12">
-                <h2 class="text-7xl font-extrabold text-[#4c1d95]">Well-being & Particles</h2>
-                <span class="bg-[#ddd6fe] text-[#4c1d95] px-8 py-4 rounded-full text-4xl font-bold shadow-sm">Pg 5</span>
+        <section id="vocab-2" class="page-section">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-4xl font-bold text-purple-900">Well-being & Particles</h2>
+                <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-lg font-bold">Pg 5</span>
             </div>
 
-            <div class="bg-white rounded-[40px] shadow-2xl overflow-hidden mb-16 border-4 border-[#ddd6fe]">
+            <!-- Vocab Table -->
+            <div class="bg-white rounded-2xl shadow-md overflow-hidden mb-10 border border-purple-100">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-[#6d28d9] text-white text-4xl">
-                            <th class="p-10 w-28 text-center font-bold">#</th>
-                            <th class="p-10 font-bold w-1/4">Pinyin</th>
-                            <th class="p-10 font-bold w-1/4">English</th>
-                            <th class="p-10 font-bold">Phrase / Example</th>
+                        <tr class="bg-purple-800 text-white text-xl">
+                            <th class="p-5 w-16 text-center">#</th>
+                            <th class="p-5 w-1/4">Pinyin</th>
+                            <th class="p-5 w-1/4">English</th>
+                            <th class="p-5">Phrase / Example</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y-4 divide-[#f3e8ff] text-4xl">
-                        <tr class="hover:bg-purple-50 transition-colors">
-                            <td class="p-10 text-center font-extrabold text-[#a855f7] text-5xl">1</td>
-                            <td class="p-10 font-bold text-6xl text-[#4c1d95]">ma</td>
-                            <td class="p-10 text-gray-500 italic text-3xl">particle for yes-no question <span class="inline-block text-5xl ml-4 bg-gray-100 p-3 rounded-2xl not-italic">❓</span></td>
-                            <td class="p-10 text-gray-600">
+                    <tbody class="divide-y-2 divide-purple-50 text-xl">
+                        <tr class="hover:bg-purple-50/50">
+                            <td class="p-5 text-center font-bold text-purple-500">1</td>
+                            <td class="p-5 font-bold text-2xl text-purple-900">ma</td>
+                            <td class="p-5 text-gray-500 italic text-lg">particle for yes-no question</td>
+                            <td class="p-5 text-gray-600">
                                 <div>Nǐ hǎo <span class="vocab-hl">ma</span>?</div>
                             </td>
                         </tr>
-                        <tr class="bg-[#faf5ff] hover:bg-purple-100 transition-colors">
-                            <td class="p-10 text-center font-extrabold text-[#a855f7] text-5xl">2</td>
-                            <td class="p-10 font-bold text-6xl text-[#4c1d95]">wǒ</td>
-                            <td class="p-10 text-gray-700">I, me <span class="inline-block text-5xl ml-4 bg-purple-100 p-3 rounded-2xl">🙋</span></td>
-                            <td class="p-10 text-gray-600">
+                        <tr class="bg-purple-50/30 hover:bg-purple-50/80">
+                            <td class="p-5 text-center font-bold text-purple-500">2</td>
+                            <td class="p-5 font-bold text-2xl text-purple-900">wǒ</td>
+                            <td class="p-5 text-gray-700">I, me</td>
+                            <td class="p-5 text-gray-600">
                                 <div><span class="vocab-hl">Wǒ</span> hěn hǎo.</div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-purple-50 transition-colors">
-                            <td class="p-10 text-center font-extrabold text-[#a855f7] text-5xl">3</td>
-                            <td class="p-10 font-bold text-6xl text-[#4c1d95]">hěn</td>
-                            <td class="p-10 text-gray-700">very <span class="inline-block text-5xl ml-4 bg-purple-100 p-3 rounded-2xl">✨</span></td>
-                            <td class="p-10 text-gray-600">
+                        <tr class="hover:bg-purple-50/50">
+                            <td class="p-5 text-center font-bold text-purple-500">3</td>
+                            <td class="p-5 font-bold text-2xl text-purple-900">hěn</td>
+                            <td class="p-5 text-gray-700">very</td>
+                            <td class="p-5 text-gray-600">
                                 <div>Wǒ <span class="vocab-hl">hěn</span> hǎo.</div>
                             </td>
                         </tr>
-                        <tr class="bg-[#faf5ff] hover:bg-purple-100 transition-colors">
-                            <td class="p-10 text-center font-extrabold text-[#a855f7] text-5xl">4</td>
-                            <td class="p-10 font-bold text-6xl text-[#4c1d95]">ne</td>
-                            <td class="p-10 text-gray-500 italic text-3xl">particle for bounce-back questions <span class="inline-block text-5xl ml-4 bg-gray-100 p-3 rounded-2xl not-italic">↩️</span></td>
-                            <td class="p-10 text-gray-600">
+                        <tr class="bg-purple-50/30 hover:bg-purple-50/80">
+                            <td class="p-5 text-center font-bold text-purple-500">4</td>
+                            <td class="p-5 font-bold text-2xl text-purple-900">ne</td>
+                            <td class="p-5 text-gray-500 italic text-lg">particle for bounce-back questions</td>
+                            <td class="p-5 text-gray-600">
                                 <div>Nǐ <span class="vocab-hl">ne</span>?</div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-purple-50 transition-colors">
-                            <td class="p-10 text-center font-extrabold text-[#a855f7] text-5xl">5</td>
-                            <td class="p-10 font-bold text-6xl text-[#4c1d95]">yě</td>
-                            <td class="p-10 text-gray-700">too, also <span class="inline-block text-5xl ml-4 bg-purple-100 p-3 rounded-2xl">➕</span></td>
-                            <td class="p-10 text-gray-600">
+                        <tr class="hover:bg-purple-50/50">
+                            <td class="p-5 text-center font-bold text-purple-500">5</td>
+                            <td class="p-5 font-bold text-2xl text-purple-900">yě</td>
+                            <td class="p-5 text-gray-700">too, also</td>
+                            <td class="p-5 text-gray-600">
                                 <div>Wǒ <span class="vocab-hl">yě</span> hěn hǎo.</div>
                             </td>
                         </tr>
-                        <tr class="bg-[#faf5ff] hover:bg-purple-100 transition-colors">
-                            <td class="p-10 text-center font-extrabold text-[#a855f7] text-5xl">6</td>
-                            <td class="p-10 font-bold text-6xl text-[#4c1d95]">Lín Nà</td>
-                            <td class="p-10 text-gray-500 italic text-3xl">name of a British student <span class="inline-block text-5xl ml-4 bg-gray-100 p-3 rounded-2xl not-italic">👩</span></td>
-                            <td class="p-10 text-gray-600">
+                        <tr class="bg-purple-50/30 hover:bg-purple-50/80">
+                            <td class="p-5 text-center font-bold text-purple-500">6</td>
+                            <td class="p-5 font-bold text-2xl text-purple-900">Lín Nà</td>
+                            <td class="p-5 text-gray-500 italic text-lg">name of a British student</td>
+                            <td class="p-5 text-gray-600">
                                 <div><span class="vocab-hl">Lín Nà</span>, nǐ hǎo.</div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
 
-                <!-- Embedded Visual Grammar Blocks -->
-                <div class="p-12 bg-white border-t-8 border-[#6d28d9]">
-                    <h3 class="text-5xl font-extrabold text-[#4c1d95] mb-12 border-b-4 border-purple-100 pb-4">Grammar Focus</h3>
-                    
-                    <!-- S + adv + adj -->
-                    <div class="bg-gradient-to-br from-purple-50 to-white p-10 rounded-3xl border-2 border-purple-200 shadow-lg mb-10 text-center">
-                        <p class="text-4xl font-bold text-gray-600 mb-8 uppercase tracking-widest">Sentence Structure</p>
-                        <div class="flex items-center justify-center space-x-6">
-                            <span class="bg-[#e9d5ff] text-[#4c1d95] px-8 py-4 rounded-2xl font-bold text-5xl shadow-md border-2 border-[#d8b4fe]">Subject</span>
-                            <span class="text-6xl text-[#a855f7]">+</span>
-                            <span class="bg-[#7c3aed] text-white px-8 py-4 rounded-2xl font-bold text-5xl shadow-md border-2 border-[#6d28d9]">adv (hěn/yě)</span>
-                            <span class="text-6xl text-[#a855f7]">+</span>
-                            <span class="bg-[#e9d5ff] text-[#4c1d95] px-8 py-4 rounded-2xl font-bold text-5xl shadow-md border-2 border-[#d8b4fe]">adjective</span>
+            <!-- Grammar Focus -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Word Order -->
+                <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-purple-500">
+                    <h3 class="text-xl font-bold text-gray-500 uppercase tracking-widest mb-4">Structure</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center text-xl font-bold text-purple-900 bg-purple-50 p-3 rounded-lg border border-purple-100">
+                            <span class="text-gray-500 font-normal mr-2">1.</span> S + <span class="text-purple-600 mx-1">hěn</span> + Adj
+                        </div>
+                        <div class="flex items-center text-xl font-bold text-purple-900 bg-purple-50 p-3 rounded-lg border border-purple-100">
+                            <span class="text-gray-500 font-normal mr-2">2.</span> S + <span class="text-purple-600 mx-1">yě</span> + hěn + Adj
                         </div>
                     </div>
+                </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                        <div class="bg-purple-50 p-10 rounded-3xl border-2 border-purple-200 shadow-sm flex flex-col justify-between">
-                            <div>
-                                <p class="text-4xl font-bold text-[#6d28d9] mb-6">The adverb <span class="bg-[#e9d5ff] px-4 py-1 rounded-xl">hěn</span> (very)</p>
-                                <ul class="text-3xl space-y-4 text-gray-700">
-                                    <li>• Placed <b class="text-purple-700">before</b> the adjective.</li>
-                                </ul>
-                            </div>
-                            <div class="mt-8 bg-white p-6 rounded-2xl text-center shadow-inner border border-purple-100">
-                                <p class="text-5xl font-extrabold">Wǒ <span class="text-[#8b5cf6]">hěn</span> hǎo.</p>
-                            </div>
+                <!-- Particles -->
+                <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-indigo-500">
+                    <h3 class="text-xl font-bold text-gray-500 uppercase tracking-widest mb-4">Particles</h3>
+                    <div class="grid grid-cols-2 gap-4 text-center">
+                        <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100">
+                            <span class="block text-3xl font-bold text-indigo-700 mb-1">ma</span>
+                            <span class="text-sm text-gray-600">Yes/no Question</span>
                         </div>
-                        <div class="bg-purple-50 p-10 rounded-3xl border-2 border-purple-200 shadow-sm flex flex-col justify-between">
-                            <div>
-                                <p class="text-4xl font-bold text-[#6d28d9] mb-6">The adverb <span class="bg-[#e9d5ff] px-4 py-1 rounded-xl">yě</span> (also, too)</p>
-                                <ul class="text-3xl space-y-4 text-gray-700">
-                                    <li>• Placed <b class="text-purple-700">before</b> other adverbs and adjectives.</li>
-                                </ul>
-                            </div>
-                            <div class="mt-8 bg-white p-6 rounded-2xl text-center shadow-inner border border-purple-100">
-                                <p class="text-5xl font-extrabold">Wǒ <span class="text-[#8b5cf6]">yě</span> hěn hǎo.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-12 bg-[#4c1d95] text-white p-10 rounded-3xl shadow-lg border-4 border-[#7c3aed]">
-                        <h4 class="text-4xl font-bold mb-8 text-[#e9d5ff]">Particles Comparison</h4>
-                        <div class="grid grid-cols-2 gap-8">
-                            <div class="bg-white/10 p-6 rounded-2xl border border-white/20">
-                                <p class="text-5xl font-bold text-yellow-300 mb-4">ma <span class="text-3xl text-gray-300 font-normal ml-2">Yes/No Question</span></p>
-                                <p class="text-4xl">Nǐ hǎo <span class="text-yellow-300">ma</span>?</p>
-                            </div>
-                            <div class="bg-white/10 p-6 rounded-2xl border border-white/20">
-                                <p class="text-5xl font-bold text-green-300 mb-4">ne <span class="text-3xl text-gray-300 font-normal ml-2">Bounce-back Question</span></p>
-                                <p class="text-4xl">Nǐ <span class="text-green-300">ne</span>?</p>
-                            </div>
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                            <span class="block text-3xl font-bold text-blue-700 mb-1">ne</span>
+                            <span class="text-sm text-gray-600">Bounce-back Q.</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="text-2" class="page-section pb-20">
-            <div class="flex justify-between items-center mb-12">
-                <h2 class="text-7xl font-extrabold text-[#4c1d95]">Text 2</h2>
-                <span class="bg-[#ddd6fe] text-[#4c1d95] px-8 py-4 rounded-full text-4xl font-bold shadow-sm">Pg 5</span>
+        <section id="text-2" class="page-section">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-4xl font-bold text-purple-900">Text 2</h2>
+                <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-lg font-bold">Pg 5</span>
             </div>
             
-            <div class="space-y-12">
+            <div class="space-y-6">
                 <!-- Dialogue Line 1 -->
-                <div class="bg-white p-14 rounded-[40px] shadow-xl border-4 border-[#f3e8ff] cursor-pointer hover:shadow-2xl hover:border-[#ddd6fe] transition-all duration-300" onclick="toggleText(this)">
-                    <div class="flex justify-between items-center">
-                        <p class="english-line font-bold">1. Lìbō: Hi Lin Na, how are you?</p>
-                        <span class="text-[#8b5cf6] text-6xl toggle-icon transition-transform">▼</span>
-                    </div>
-                    <div class="pinyin-reveal-container">
-                        <p class="text-7xl text-[#4c1d95] font-extrabold tracking-wide pt-10 border-t-4 border-[#f3e8ff]">
-                            1. Lìbō: <span class="vocab-hl">Lín Nà</span>, nǐ hǎo <span class="vocab-hl">ma</span>?
-                        </p>
+                <div class="flex items-start gap-4">
+                    <div class="font-bold text-purple-900 text-xl whitespace-nowrap pt-4 w-36 text-right">1. Lìbō:</div>
+                    <div class="text-toggle-box group" onclick="toggleText(this)">
+                        <div class="flex justify-between items-center">
+                            <p class="english-line">Hi Lin Na, how are you? <span class="text-sm font-normal ml-2 opacity-50 group-hover:opacity-100 transition-opacity">(click to expand)</span></p>
+                            <span class="text-purple-400 text-xl toggle-icon transition-transform">▼</span>
+                        </div>
+                        <div class="pinyin-reveal-container">
+                            <span class="vocab-hl">Lín Nà</span>, nǐ hǎo <span class="vocab-hl">ma</span>?
+                        </div>
                     </div>
                 </div>
 
                 <!-- Dialogue Line 2 -->
-                <div class="bg-white p-14 rounded-[40px] shadow-xl border-4 border-[#f3e8ff] cursor-pointer hover:shadow-2xl hover:border-[#ddd6fe] transition-all duration-300" onclick="toggleText(this)">
-                    <div class="flex justify-between items-center">
-                        <p class="english-line font-bold">2. Lín Nà: I'm fine, and you?</p>
-                        <span class="text-[#8b5cf6] text-6xl toggle-icon transition-transform">▼</span>
-                    </div>
-                    <div class="pinyin-reveal-container">
-                        <p class="text-7xl text-[#4c1d95] font-extrabold tracking-wide pt-10 border-t-4 border-[#f3e8ff]">
-                            2. Lín Nà: <span class="vocab-hl">Wǒ hěn</span> hǎo, nǐ <span class="vocab-hl">ne</span>?
-                        </p>
+                <div class="flex items-start gap-4">
+                    <div class="font-bold text-purple-900 text-xl whitespace-nowrap pt-4 w-36 text-right">2. Lín Nà:</div>
+                    <div class="text-toggle-box group" onclick="toggleText(this)">
+                        <div class="flex justify-between items-center">
+                            <p class="english-line">I'm fine, and you? <span class="text-sm font-normal ml-2 opacity-50 group-hover:opacity-100 transition-opacity">(click to expand)</span></p>
+                            <span class="text-purple-400 text-xl toggle-icon transition-transform">▼</span>
+                        </div>
+                        <div class="pinyin-reveal-container">
+                            <span class="vocab-hl">Wǒ hěn</span> hǎo, nǐ <span class="vocab-hl">ne</span>?
+                        </div>
                     </div>
                 </div>
 
                 <!-- Dialogue Line 3 -->
-                <div class="bg-white p-14 rounded-[40px] shadow-xl border-4 border-[#f3e8ff] cursor-pointer hover:shadow-2xl hover:border-[#ddd6fe] transition-all duration-300" onclick="toggleText(this)">
-                    <div class="flex justify-between items-center">
-                        <p class="english-line font-bold">3. Lìbō: I'm fine too.</p>
-                        <span class="text-[#8b5cf6] text-6xl toggle-icon transition-transform">▼</span>
-                    </div>
-                    <div class="pinyin-reveal-container">
-                        <p class="text-7xl text-[#4c1d95] font-extrabold tracking-wide pt-10 border-t-4 border-[#f3e8ff]">
-                            3. Lìbō: <span class="vocab-hl">Yě hěn</span> hǎo.
-                        </p>
+                <div class="flex items-start gap-4">
+                    <div class="font-bold text-purple-900 text-xl whitespace-nowrap pt-4 w-36 text-right">3. Lìbō:</div>
+                    <div class="text-toggle-box group" onclick="toggleText(this)">
+                        <div class="flex justify-between items-center">
+                            <p class="english-line">I'm fine too. <span class="text-sm font-normal ml-2 opacity-50 group-hover:opacity-100 transition-opacity">(click to expand)</span></p>
+                            <span class="text-purple-400 text-xl toggle-icon transition-transform">▼</span>
+                        </div>
+                        <div class="pinyin-reveal-container">
+                            <span class="vocab-hl">Yě hěn</span> hǎo.
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="exercises" class="page-section pb-20">
-            <div class="flex justify-between items-center mb-12">
-                <h2 class="text-7xl font-extrabold text-[#4c1d95]">Exercises</h2>
-                <span class="bg-[#ddd6fe] text-[#4c1d95] px-8 py-4 rounded-full text-4xl font-bold shadow-sm">Pg 8</span>
+        <section id="exercises" class="page-section">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-4xl font-bold text-purple-900">Exercises</h2>
+                <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-lg font-bold">Pg 8</span>
             </div>
 
-            <p class="text-center text-[#5b21b6] mb-12 font-bold text-4xl bg-purple-100 py-6 rounded-3xl shadow-inner border-4 border-[#ddd6fe]">Click the blanks to reveal the correct answers.</p>
+            <p class="text-center text-purple-800 mb-8 font-bold text-xl bg-purple-100 py-3 rounded-xl shadow-sm border border-purple-200">
+                Click the blanks to reveal the correct answers.
+            </p>
 
-            <div class="space-y-16">
+            <div class="space-y-10">
                 <!-- Dialogue 1 -->
-                <div class="bg-white rounded-[40px] p-16 shadow-2xl border-l-[24px] border-[#6d28d9]">
-                    <h3 class="text-4xl font-extrabold text-gray-500 mb-10 tracking-widest uppercase border-b-2 border-gray-100 pb-4">Complete the following dialogue</h3>
-                    <div class="space-y-12 pl-6">
-                        <div class="bg-purple-50 p-10 rounded-3xl border-2 border-purple-100 shadow-sm">
-                            <p class="text-5xl font-extrabold text-[#4c1d95] mb-4">Lín Nà: Lìbō, nǐ hǎo!</p>
-                            <p class="text-3xl text-gray-500 font-bold">Lin Na: Hello, Libo!</p>
+                <div class="bg-white rounded-2xl p-8 shadow-md border-l-8 border-purple-600">
+                    <h3 class="text-xl font-bold text-gray-500 mb-6 tracking-widest uppercase border-b border-gray-100 pb-2">Complete the following dialogue (1)</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="font-bold text-purple-900 text-xl whitespace-nowrap pt-1 w-32 text-right">1. Lín Nà:</div>
+                            <div>
+                                <p class="text-2xl font-bold text-purple-900">Lìbō, nǐ hǎo!</p>
+                                <p class="text-gray-500">Hello, Libo!</p>
+                            </div>
                         </div>
-                        <div class="bg-purple-50 p-10 rounded-3xl border-2 border-purple-100 shadow-sm">
-                            <p class="text-5xl font-extrabold text-[#4c1d95] mb-4 flex flex-wrap items-baseline gap-y-6">Lìbō: <span class="exercise-blank" onclick="revealAnswer(this, 'Nǐ hǎo, Lín Nà.')">________________</span></p>
-                            <p class="text-3xl text-gray-500 font-bold">Libo: Hello, Lin Na.</p>
+                        <div class="flex items-start gap-4">
+                            <div class="font-bold text-purple-900 text-xl whitespace-nowrap pt-1 w-32 text-right">2. Lìbō:</div>
+                            <div>
+                                <p class="text-2xl font-bold text-purple-900 flex items-baseline">
+                                    <span class="exercise-blank" onclick="revealAnswer(this, 'Nǐ hǎo, Lín Nà.')">________________</span>
+                                </p>
+                                <p class="text-gray-500 mt-1">Hello, Lin Na.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Dialogue 2 -->
-                <div class="bg-white rounded-[40px] p-16 shadow-2xl border-l-[24px] border-[#8b5cf6]">
-                    <h3 class="text-4xl font-extrabold text-gray-500 mb-10 tracking-widest uppercase border-b-2 border-gray-100 pb-4">Make dialogues based on the pictures</h3>
+                <div class="bg-white rounded-2xl p-8 shadow-md border-l-8 border-purple-700">
+                    <h3 class="text-xl font-bold text-gray-500 mb-6 tracking-widest uppercase border-b border-gray-100 pb-2">Complete the following dialogue (2)</h3>
                     
-                    <div class="grid grid-cols-2 gap-12">
-                        <!-- Picture 1 Part -->
-                        <div class="space-y-12">
-                            <div class="bg-purple-50 p-10 rounded-3xl border-2 border-purple-100 shadow-sm">
-                                <p class="text-4xl font-extrabold text-[#4c1d95] mb-4">A: Chén lǎoshī, nǐ hǎo.</p>
-                                <p class="text-3xl text-gray-500 font-bold">A: Hello, Teacher Chen.</p>
-                            </div>
-                            <div class="bg-purple-50 p-10 rounded-3xl border-2 border-purple-100 shadow-sm">
-                                <p class="text-4xl font-extrabold text-[#4c1d95] mb-4 flex flex-wrap items-baseline gap-y-6">B: <span class="exercise-blank min-w-[200px]" onclick="revealAnswer(this, 'Nǐ hǎo, Lù Yǔpíng.')">______________</span></p>
-                                <p class="text-3xl text-gray-500 font-bold">B: Hello, Lu Yuping.</p>
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="font-bold text-purple-900 text-xl whitespace-nowrap pt-1 w-32 text-right">1. Mǎlì:</div>
+                            <div>
+                                <p class="text-2xl font-bold text-purple-900">Nǐ hǎo ma?</p>
+                                <p class="text-gray-500">How are you?</p>
                             </div>
                         </div>
-
-                        <!-- Picture 2 Part -->
-                        <div class="space-y-12">
-                            <div class="bg-purple-50 p-10 rounded-3xl border-2 border-purple-100 shadow-sm">
-                                <p class="text-4xl font-extrabold text-[#4c1d95] mb-4">A: Lín Nà, nǐ hǎo.</p>
-                                <p class="text-3xl text-gray-500 font-bold">A: Hello, Lin Na.</p>
+                        <div class="flex items-start gap-4">
+                            <div class="font-bold text-purple-900 text-xl whitespace-nowrap pt-1 w-32 text-right">2. Lù Yì:</div>
+                            <div>
+                                <p class="text-2xl font-bold text-purple-900 flex flex-wrap items-baseline gap-y-3">
+                                    <span class="exercise-blank" onclick="revealAnswer(this, 'Wǒ hěn hǎo')">________________</span>, nǐ ne?
+                                </p>
+                                <p class="text-gray-500 mt-1">I'm fine, and you?</p>
                             </div>
-                            <div class="bg-purple-50 p-10 rounded-3xl border-2 border-purple-100 shadow-sm">
-                                <p class="text-4xl font-extrabold text-[#4c1d95] mb-4 flex flex-wrap items-baseline gap-y-6">B: <span class="exercise-blank min-w-[200px]" onclick="revealAnswer(this, 'Nǐ hǎo, Lìbō.')">______________</span></p>
-                                <p class="text-3xl text-gray-500 font-bold">B: Hello, Libo.</p>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="font-bold text-purple-900 text-xl whitespace-nowrap pt-1 w-32 text-right">3. Mǎlì:</div>
+                            <div>
+                                <p class="text-2xl font-bold text-purple-900 flex items-baseline">
+                                    <span class="exercise-blank" onclick="revealAnswer(this, 'Wǒ yě hěn hǎo.')">________________</span>
+                                </p>
+                                <p class="text-gray-500 mt-1">I'm fine too.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Dialogue 3 -->
-                <div class="bg-white rounded-[40px] p-16 shadow-2xl border-l-[24px] border-[#a855f7]">
-                    <h3 class="text-4xl font-extrabold text-gray-500 mb-10 tracking-widest uppercase border-b-2 border-gray-100 pb-4">Complete the following dialogue</h3>
-                    <div class="space-y-12 pl-6">
-                        <div class="bg-purple-50 p-10 rounded-3xl border-2 border-purple-100 shadow-sm">
-                            <p class="text-5xl font-extrabold text-[#4c1d95] mb-4">Mǎlì: Nǐ hǎo ma?</p>
-                            <p class="text-3xl text-gray-500 font-bold">Mali: How are you?</p>
-                        </div>
-                        <div class="bg-purple-50 p-10 rounded-3xl border-2 border-purple-100 shadow-sm">
-                            <p class="text-5xl font-extrabold text-[#4c1d95] mb-4 flex flex-wrap items-baseline gap-y-6 leading-relaxed">Lù Yì: <span class="exercise-blank" onclick="revealAnswer(this, 'Wǒ hěn hǎo,')">________________</span> nǐ ne?</p>
-                            <p class="text-3xl text-gray-500 font-bold">Lu Yi: I'm fine, and you?</p>
-                        </div>
-                        <div class="bg-purple-50 p-10 rounded-3xl border-2 border-purple-100 shadow-sm">
-                            <p class="text-5xl font-extrabold text-[#4c1d95] mb-4 flex flex-wrap items-baseline gap-y-6">Mǎlì: <span class="exercise-blank" onclick="revealAnswer(this, 'Wǒ yě hěn hǎo.')">__________________</span></p>
-                            <p class="text-3xl text-gray-500 font-bold">Mali: I'm fine too.</p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </section>
 
-        <section id="pronunciation" class="page-section pb-20">
-            <div class="flex justify-between items-center mb-12">
-                <h2 class="text-7xl font-extrabold text-[#4c1d95]">Pronunciation Drills</h2>
-                <span class="bg-[#ddd6fe] text-[#4c1d95] px-8 py-4 rounded-full text-4xl font-bold shadow-sm">Pg 6-7</span>
+        <section id="pronunciation" class="page-section">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-4xl font-bold text-purple-900">Pronunciation Drills</h2>
+                <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-lg font-bold">Pg 6-7</span>
             </div>
 
-            <div class="space-y-16">
+            <div class="space-y-10">
                 <!-- Drill 1 -->
-                <div class="bg-white p-14 rounded-[40px] shadow-2xl border-t-[12px] border-[#5b21b6]">
-                    <h3 class="text-5xl font-extrabold text-[#4c1d95] mb-12 border-b-4 border-purple-100 pb-6">1 Pinyin</h3>
-                    <div class="grid grid-cols-6 gap-4 text-5xl">
+                <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-purple-500">
+                    <h3 class="text-2xl font-bold text-purple-900 mb-6 border-b border-purple-100 pb-2">1 Pinyin</h3>
+                    <div class="grid grid-cols-6 gap-3 text-2xl">
                         <div class="pronunciation-box">bā</div><div class="pronunciation-box">bō</div><div class="pronunciation-box">bī</div><div class="pronunciation-box">bū</div><div class="pronunciation-box">bīn</div><div class="pronunciation-box">bīng</div>
                         <div class="pronunciation-box">pā</div><div class="pronunciation-box">pō</div><div class="pronunciation-box">pī</div><div class="pronunciation-box">pū</div><div class="pronunciation-box">pīn</div><div class="pronunciation-box">pīng</div>
-                        <div class="pronunciation-box">mā</div><div class="pronunciation-box">mō</div><div class="pronunciation-box">mī</div><div class="pronunciation-box">mū</div><div class="empty-box"></div><div class="empty-box"></div>
-                        <div class="pronunciation-box">nē</div><div class="pronunciation-box">nāo</div><div class="pronunciation-box">niē</div><div class="empty-box"></div><div class="empty-box"></div><div class="empty-box"></div>
-                        <div class="pronunciation-box">lē</div><div class="pronunciation-box">lāo</div><div class="pronunciation-box">liē</div><div class="pronunciation-box">luō</div><div class="empty-box"></div><div class="empty-box"></div>
-                        <div class="pronunciation-box">hē</div><div class="pronunciation-box">hāo</div><div class="pronunciation-box">huō</div><div class="empty-box"></div><div class="empty-box"></div><div class="empty-box"></div>
+                        <div class="pronunciation-box">mā</div><div class="pronunciation-box">mō</div><div class="pronunciation-box">mī</div><div class="pronunciation-box">mū</div><div></div><div></div>
+                        <div class="pronunciation-box">nē</div><div class="pronunciation-box">nāo</div><div class="pronunciation-box">niē</div><div></div><div></div><div></div>
+                        <div class="pronunciation-box">lē</div><div class="pronunciation-box">lāo</div><div class="pronunciation-box">liē</div><div class="pronunciation-box">luō</div><div></div><div></div>
+                        <div class="pronunciation-box">hē</div><div class="pronunciation-box">hāo</div><div class="pronunciation-box">huō</div><div></div><div></div><div></div>
                     </div>
                 </div>
 
                 <!-- Drill 2 -->
-                <div class="bg-white p-14 rounded-[40px] shadow-2xl border-t-[12px] border-[#6d28d9]">
-                    <h3 class="text-5xl font-extrabold text-[#4c1d95] mb-12 border-b-4 border-purple-100 pb-6">2 The four tones</h3>
-                    <div class="grid grid-cols-5 gap-4 text-5xl">
-                        <div class="pronunciation-box">ā</div><div class="pronunciation-box">á</div><div class="pronunciation-box">ǎ</div><div class="pronunciation-box">à</div><div class="empty-box"></div>
-                        <div class="pronunciation-box">nī</div><div class="pronunciation-box">ní</div><div class="pronunciation-box">nǐ</div><div class="pronunciation-box">nì</div><div class="empty-box"></div>
-                        <div class="pronunciation-box">hāo</div><div class="pronunciation-box">háo</div><div class="pronunciation-box">hǎo</div><div class="pronunciation-box">hào</div><div class="pronunciation-box highlighted text-4xl">nǐ hǎo</div>
-                        <div class="pronunciation-box">lī</div><div class="pronunciation-box">lí</div><div class="pronunciation-box">lǐ</div><div class="pronunciation-box">lì</div><div class="empty-box"></div>
-                        <div class="pronunciation-box">bō</div><div class="pronunciation-box">bó</div><div class="pronunciation-box">bǒ</div><div class="pronunciation-box">bò</div><div class="pronunciation-box highlighted text-4xl">Lìbō</div>
-                        <div class="pronunciation-box">līn</div><div class="pronunciation-box">lín</div><div class="pronunciation-box">lǐn</div><div class="pronunciation-box">lìn</div><div class="empty-box"></div>
-                        <div class="pronunciation-box">nā</div><div class="pronunciation-box">ná</div><div class="pronunciation-box">nǎ</div><div class="pronunciation-box">nà</div><div class="pronunciation-box highlighted text-4xl">Lín Nà</div>
-                        <div class="pronunciation-box">lū</div><div class="pronunciation-box">lú</div><div class="pronunciation-box">lǔ</div><div class="pronunciation-box">lù</div><div class="empty-box"></div>
-                        <div class="pronunciation-box">yū</div><div class="pronunciation-box">yú</div><div class="pronunciation-box">yǔ</div><div class="pronunciation-box">yù</div><div class="empty-box"></div>
-                        <div class="pronunciation-box">pīng</div><div class="pronunciation-box">píng</div><div class="empty-box"></div><div class="empty-box"></div><div class="pronunciation-box highlighted text-4xl">Lù Yǔpíng</div>
-                        <div class="pronunciation-box">wō</div><div class="empty-box"></div><div class="pronunciation-box">wǒ</div><div class="pronunciation-box">wò</div><div class="empty-box"></div>
-                        <div class="empty-box"></div><div class="pronunciation-box">hén</div><div class="pronunciation-box">hěn</div><div class="pronunciation-box">hèn</div><div class="pronunciation-box highlighted text-4xl">wǒ hěn hǎo</div>
-                        <div class="pronunciation-box">yē</div><div class="pronunciation-box">yé</div><div class="pronunciation-box">yě</div><div class="pronunciation-box">yè</div><div class="pronunciation-box highlighted text-4xl">yě hěn hǎo</div>
+                <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-purple-600">
+                    <h3 class="text-2xl font-bold text-purple-900 mb-6 border-b border-purple-100 pb-2">2 The four tones</h3>
+                    <div class="grid grid-cols-5 gap-3 text-2xl">
+                        <div class="pronunciation-box">ā</div><div class="pronunciation-box">á</div><div class="pronunciation-box">ǎ</div><div class="pronunciation-box">à</div><div></div>
+                        <div class="pronunciation-box">nī</div><div class="pronunciation-box">ní</div><div class="pronunciation-box">nǐ</div><div class="pronunciation-box">nì</div><div></div>
+                        <div class="pronunciation-box">hāo</div><div class="pronunciation-box">háo</div><div class="pronunciation-box">hǎo</div><div class="pronunciation-box">hào</div><div class="pronunciation-box highlighted !text-lg">nǐ hǎo</div>
+                        <div class="pronunciation-box">lī</div><div class="pronunciation-box">lí</div><div class="pronunciation-box">lǐ</div><div class="pronunciation-box">lì</div><div></div>
+                        <div class="pronunciation-box">bō</div><div class="pronunciation-box">bó</div><div class="pronunciation-box">bǒ</div><div class="pronunciation-box">bò</div><div class="pronunciation-box highlighted !text-lg">Lìbō</div>
+                        <div class="pronunciation-box">līn</div><div class="pronunciation-box">lín</div><div class="pronunciation-box">lǐn</div><div class="pronunciation-box">lìn</div><div></div>
+                        <div class="pronunciation-box">nā</div><div class="pronunciation-box">ná</div><div class="pronunciation-box">nǎ</div><div class="pronunciation-box">nà</div><div class="pronunciation-box highlighted !text-lg">Lín Nà</div>
+                        <div class="pronunciation-box">lū</div><div class="pronunciation-box">lú</div><div class="pronunciation-box">lǔ</div><div class="pronunciation-box">lù</div><div></div>
+                        <div class="pronunciation-box">yū</div><div class="pronunciation-box">yú</div><div class="pronunciation-box">yǔ</div><div class="pronunciation-box">yù</div><div></div>
+                        <div class="pronunciation-box">pīng</div><div class="pronunciation-box">píng</div><div></div><div></div><div class="pronunciation-box highlighted !text-lg">Lù Yǔpíng</div>
+                        <div class="pronunciation-box">wō</div><div></div><div class="pronunciation-box">wǒ</div><div class="pronunciation-box">wò</div><div></div>
+                        <div></div><div class="pronunciation-box">hén</div><div class="pronunciation-box">hěn</div><div class="pronunciation-box">hèn</div><div class="pronunciation-box highlighted !text-lg">wǒ hěn hǎo</div>
+                        <div class="pronunciation-box">yē</div><div class="pronunciation-box">yé</div><div class="pronunciation-box">yě</div><div class="pronunciation-box">yè</div><div class="pronunciation-box highlighted !text-lg">yě hěn hǎo</div>
                     </div>
                 </div>
 
-                <!-- Drill 3 -->
-                <div class="bg-white p-14 rounded-[40px] shadow-2xl border-t-[12px] border-[#7c3aed]">
-                    <h3 class="text-5xl font-extrabold text-[#4c1d95] mb-12 border-b-4 border-purple-100 pb-6">3 Sound discrimination</h3>
-                    <div class="grid grid-cols-6 gap-6 text-5xl">
-                        <div class="pronunciation-box">bā<span class="eng-sub">(eight)</span></div>
-                        <div class="pronunciation-box">pā<span class="eng-sub">(lie on stomach)</span></div>
-                        <div class="pronunciation-box">nǔ<span class="eng-sub">(exert)</span></div>
-                        <div class="pronunciation-box">nǚ<span class="eng-sub">(female)</span></div>
-                        <div class="pronunciation-box">wǔ<span class="eng-sub">(five)</span></div>
-                        <div class="pronunciation-box">hǔ<span class="eng-sub">(tiger)</span></div>
-                        <div class="pronunciation-box">bīng<span class="eng-sub">(ice)</span></div>
-                        <div class="pronunciation-box">bīn<span class="eng-sub">(guest)</span></div>
-                        <div class="pronunciation-box">piě<span class="eng-sub">(stroke)</span></div>
-                        <div class="pronunciation-box">biě<span class="eng-sub">(shrivelled)</span></div>
-                        <div class="pronunciation-box">huǒ<span class="eng-sub">(fire)</span></div>
-                        <div class="pronunciation-box">wǒ<span class="eng-sub">(I)</span></div>
+                <!-- Drill 3: Paired Sound Discrimination -->
+                <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-purple-700">
+                    <h3 class="text-2xl font-bold text-purple-900 mb-6 border-b border-purple-100 pb-2">3 Sound discrimination</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                        <!-- Pair 1 -->
+                        <div class="flex border-2 border-purple-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="w-1/2 p-3 text-center border-r border-purple-100 bg-purple-50">
+                                <div class="text-2xl font-bold text-purple-900">bā</div>
+                                <div class="text-sm text-gray-500">(eight)</div>
+                            </div>
+                            <div class="w-1/2 p-3 text-center">
+                                <div class="text-2xl font-bold text-purple-900">pā</div>
+                                <div class="text-sm text-gray-500">(lie on stomach)</div>
+                            </div>
+                        </div>
+                        <!-- Pair 2 -->
+                        <div class="flex border-2 border-purple-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="w-1/2 p-3 text-center border-r border-purple-100 bg-purple-50">
+                                <div class="text-2xl font-bold text-purple-900">nǚ</div>
+                                <div class="text-sm text-gray-500">(female)</div>
+                            </div>
+                            <div class="w-1/2 p-3 text-center">
+                                <div class="text-2xl font-bold text-purple-900">nǔ</div>
+                                <div class="text-sm text-gray-500">(exert)</div>
+                            </div>
+                        </div>
+                        <!-- Pair 3 -->
+                        <div class="flex border-2 border-purple-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="w-1/2 p-3 text-center border-r border-purple-100 bg-purple-50">
+                                <div class="text-2xl font-bold text-purple-900">wǔ</div>
+                                <div class="text-sm text-gray-500">(five)</div>
+                            </div>
+                            <div class="w-1/2 p-3 text-center">
+                                <div class="text-2xl font-bold text-purple-900">hǔ</div>
+                                <div class="text-sm text-gray-500">(tiger)</div>
+                            </div>
+                        </div>
+                        <!-- Pair 4 -->
+                        <div class="flex border-2 border-purple-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="w-1/2 p-3 text-center border-r border-purple-100 bg-purple-50">
+                                <div class="text-2xl font-bold text-purple-900">bīng</div>
+                                <div class="text-sm text-gray-500">(ice)</div>
+                            </div>
+                            <div class="w-1/2 p-3 text-center">
+                                <div class="text-2xl font-bold text-purple-900">bīn</div>
+                                <div class="text-sm text-gray-500">(guest)</div>
+                            </div>
+                        </div>
+                        <!-- Pair 5 -->
+                        <div class="flex border-2 border-purple-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="w-1/2 p-3 text-center border-r border-purple-100 bg-purple-50">
+                                <div class="text-2xl font-bold text-purple-900">piě</div>
+                                <div class="text-sm text-gray-500">(stroke)</div>
+                            </div>
+                            <div class="w-1/2 p-3 text-center">
+                                <div class="text-2xl font-bold text-purple-900">biě</div>
+                                <div class="text-sm text-gray-500">(shrivelled)</div>
+                            </div>
+                        </div>
+                        <!-- Pair 6 -->
+                        <div class="flex border-2 border-purple-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="w-1/2 p-3 text-center border-r border-purple-100 bg-purple-50">
+                                <div class="text-2xl font-bold text-purple-900">huǒ</div>
+                                <div class="text-sm text-gray-500">(fire)</div>
+                            </div>
+                            <div class="w-1/2 p-3 text-center">
+                                <div class="text-2xl font-bold text-purple-900">wǒ</div>
+                                <div class="text-sm text-gray-500">(I)</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Drill 4 -->
-                <div class="bg-white p-14 rounded-[40px] shadow-2xl border-t-[12px] border-[#8b5cf6]">
-                    <h3 class="text-5xl font-extrabold text-[#4c1d95] mb-12 border-b-4 border-purple-100 pb-6">4 Tone discrimination</h3>
-                    <div class="grid grid-cols-6 gap-6 text-5xl">
-                        <div class="pronunciation-box">mǎ<span class="eng-sub">(horse)</span></div>
-                        <div class="pronunciation-box">mā<span class="eng-sub">(mom)</span></div>
-                        <div class="pronunciation-box">mù<span class="eng-sub">(wood)</span></div>
-                        <div class="pronunciation-box">mǔ<span class="eng-sub">(mother)</span></div>
-                        <div class="pronunciation-box">yī<span class="eng-sub">(one)</span></div>
-                        <div class="pronunciation-box">yí<span class="eng-sub">(aunt)</span></div>
-                        <div class="pronunciation-box">yě<span class="eng-sub">(also)</span></div>
-                        <div class="pronunciation-box">yè<span class="eng-sub">(night)</span></div>
-                        <div class="pronunciation-box">lì<span class="eng-sub">(strength)</span></div>
-                        <div class="pronunciation-box">lǐ<span class="eng-sub">(in)</span></div>
-                        <div class="pronunciation-box">mén<span class="eng-sub">(door)</span></div>
-                        <div class="pronunciation-box">mèn<span class="eng-sub">(depressed)</span></div>
+                <!-- Drill 4: Paired Tone Discrimination -->
+                <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-purple-800">
+                    <h3 class="text-2xl font-bold text-purple-900 mb-6 border-b border-purple-100 pb-2">4 Tone discrimination</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                        <!-- Pair 1 -->
+                        <div class="flex border-2 border-purple-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="w-1/2 p-3 text-center border-r border-purple-100 bg-purple-50">
+                                <div class="text-2xl font-bold text-purple-900">mǎ</div>
+                                <div class="text-sm text-gray-500">(horse)</div>
+                            </div>
+                            <div class="w-1/2 p-3 text-center">
+                                <div class="text-2xl font-bold text-purple-900">mā</div>
+                                <div class="text-sm text-gray-500">(mom)</div>
+                            </div>
+                        </div>
+                        <!-- Pair 2 -->
+                        <div class="flex border-2 border-purple-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="w-1/2 p-3 text-center border-r border-purple-100 bg-purple-50">
+                                <div class="text-2xl font-bold text-purple-900">mù</div>
+                                <div class="text-sm text-gray-500">(wood)</div>
+                            </div>
+                            <div class="w-1/2 p-3 text-center">
+                                <div class="text-2xl font-bold text-purple-900">mǔ</div>
+                                <div class="text-sm text-gray-500">(mother)</div>
+                            </div>
+                        </div>
+                        <!-- Pair 3 -->
+                        <div class="flex border-2 border-purple-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="w-1/2 p-3 text-center border-r border-purple-100 bg-purple-50">
+                                <div class="text-2xl font-bold text-purple-900">yī</div>
+                                <div class="text-sm text-gray-500">(one)</div>
+                            </div>
+                            <div class="w-1/2 p-3 text-center">
+                                <div class="text-2xl font-bold text-purple-900">yí</div>
+                                <div class="text-sm text-gray-500">(aunt)</div>
+                            </div>
+                        </div>
+                        <!-- Pair 4 -->
+                        <div class="flex border-2 border-purple-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="w-1/2 p-3 text-center border-r border-purple-100 bg-purple-50">
+                                <div class="text-2xl font-bold text-purple-900">yě</div>
+                                <div class="text-sm text-gray-500">(also)</div>
+                            </div>
+                            <div class="w-1/2 p-3 text-center">
+                                <div class="text-2xl font-bold text-purple-900">yè</div>
+                                <div class="text-sm text-gray-500">(night)</div>
+                            </div>
+                        </div>
+                        <!-- Pair 5 -->
+                        <div class="flex border-2 border-purple-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="w-1/2 p-3 text-center border-r border-purple-100 bg-purple-50">
+                                <div class="text-2xl font-bold text-purple-900">lì</div>
+                                <div class="text-sm text-gray-500">(strength)</div>
+                            </div>
+                            <div class="w-1/2 p-3 text-center">
+                                <div class="text-2xl font-bold text-purple-900">lǐ</div>
+                                <div class="text-sm text-gray-500">(in)</div>
+                            </div>
+                        </div>
+                        <!-- Pair 6 -->
+                        <div class="flex border-2 border-purple-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="w-1/2 p-3 text-center border-r border-purple-100 bg-purple-50">
+                                <div class="text-2xl font-bold text-purple-900">mén</div>
+                                <div class="text-sm text-gray-500">(door)</div>
+                            </div>
+                            <div class="w-1/2 p-3 text-center">
+                                <div class="text-2xl font-bold text-purple-900">mèn</div>
+                                <div class="text-sm text-gray-500">(depressed)</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Drill 5 -->
-                <div class="bg-white p-14 rounded-[40px] shadow-2xl border-t-[12px] border-[#a855f7]">
-                    <h3 class="text-5xl font-extrabold text-[#4c1d95] mb-12 border-b-4 border-purple-100 pb-6">5 Third-tone sandhi</h3>
-                    <div class="grid grid-cols-4 gap-8 text-5xl mb-12">
-                        <div class="pronunciation-box highlighted !py-10">nǐ hǎo</div>
-                        <div class="pronunciation-box highlighted !py-10">hěn hǎo</div>
-                        <div class="pronunciation-box highlighted !py-10">yě hǎo</div>
-                        <div class="pronunciation-box highlighted !py-10">yě hěn hǎo</div>
-                    </div>
-                    
-                    <p class="text-4xl text-gray-500 font-bold mb-6 mt-12 text-center uppercase tracking-widest">Read the following classroom expressions aloud</p>
-                    <div class="flex justify-center space-x-12">
-                        <span class="bg-purple-50 px-12 py-6 rounded-3xl shadow-sm text-5xl font-bold border-2 border-purple-200 text-[#6d28d9]">Nǐ hǎo.</span>
-                        <span class="bg-purple-50 px-12 py-6 rounded-3xl shadow-sm text-5xl font-bold border-2 border-purple-200 text-[#6d28d9]">Nǐmen hǎo.</span>
+                <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-purple-900">
+                    <h3 class="text-2xl font-bold text-purple-900 mb-6 border-b border-purple-100 pb-2">5 Third-tone sandhi</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-2xl">
+                        <div class="pronunciation-box highlighted py-4">nǐ hǎo</div>
+                        <div class="pronunciation-box highlighted py-4">hěn hǎo</div>
+                        <div class="pronunciation-box highlighted py-4">yě hǎo</div>
+                        <div class="pronunciation-box highlighted py-4">yě hěn hǎo</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="wrap-up" class="page-section pb-20">
-            <div class="bg-[#4c1d95] rounded-[40px] p-20 shadow-2xl text-white border-8 border-[#6d28d9]">
-                <h2 class="text-8xl font-extrabold mb-20 text-center tracking-wide text-[#ddd6fe]">Wrap-up</h2>
+        <section id="wrap-up" class="page-section">
+            <div class="bg-gradient-to-br from-purple-800 to-purple-900 rounded-3xl p-10 shadow-2xl text-white border-4 border-purple-400">
+                <h2 class="text-4xl font-bold mb-10 text-center tracking-wide text-purple-200">Wrap-up Review</h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <div class="bg-white/10 p-14 rounded-[32px] backdrop-blur-sm border-2 border-white/20 hover:bg-white/20 transition-all shadow-xl">
-                        <h3 class="text-6xl font-extrabold mb-10 text-[#e9d5ff] flex items-center justify-center"><span class="mr-6">🧱</span> Sentence Structure</h3>
-                        <div class="bg-black/30 p-10 rounded-3xl text-center shadow-inner">
-                            <p class="text-6xl font-extrabold text-white tracking-widest mb-6">S + adv + adj</p>
-                            <p class="text-5xl font-bold text-purple-200">Wǒ hěn hǎo.</p>
-                            <p class="text-5xl font-bold text-purple-200 mt-4">Wǒ yě hěn hǎo.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Greetings -->
+                    <div class="bg-white/10 p-6 rounded-2xl border border-white/20 shadow-md">
+                        <h3 class="text-2xl font-bold mb-4 text-purple-200 text-center">Greetings</h3>
+                        <div class="text-center space-y-3">
+                            <div class="bg-purple-700/50 py-2 rounded-lg font-bold text-2xl">Nǐ hǎo.</div>
+                            <div class="bg-purple-700/50 py-2 rounded-lg font-bold text-2xl">Lìbō, nǐ hǎo.</div>
                         </div>
                     </div>
 
-                    <div class="bg-white/10 p-14 rounded-[32px] backdrop-blur-sm border-2 border-white/20 hover:bg-white/20 transition-all shadow-xl">
-                        <h3 class="text-6xl font-extrabold mb-10 text-[#e9d5ff] flex items-center justify-center"><span class="mr-6">👋</span> Greetings</h3>
-                        <div class="space-y-10 flex flex-col justify-center text-center">
-                            <p class="text-5xl font-bold bg-[#7c3aed] py-4 rounded-2xl shadow-md border-2 border-[#ddd6fe]">Nǐ hǎo.</p>
-                            <p class="text-5xl font-bold bg-[#7c3aed] py-4 rounded-2xl shadow-md border-2 border-[#ddd6fe]">Lìbō, nǐ hǎo.</p>
+                    <!-- Structure -->
+                    <div class="bg-white/10 p-6 rounded-2xl border border-white/20 shadow-md">
+                        <h3 class="text-2xl font-bold mb-4 text-purple-200 text-center">Structure</h3>
+                        <div class="text-center space-y-3">
+                            <div class="text-sm font-bold text-purple-300 uppercase tracking-widest">S + adv + adj</div>
+                            <div class="bg-purple-700/50 py-2 rounded-lg font-bold text-2xl">Wǒ <span class="text-purple-300">hěn</span> hǎo.</div>
+                            <div class="bg-purple-700/50 py-2 rounded-lg font-bold text-2xl">Wǒ <span class="text-purple-300">yě</span> hěn hǎo.</div>
                         </div>
                     </div>
 
-                    <div class="bg-white/10 p-14 rounded-[32px] backdrop-blur-sm border-2 border-white/20 hover:bg-white/20 transition-all shadow-xl md:col-span-2">
-                        <h3 class="text-6xl font-extrabold mb-12 text-[#e9d5ff] flex items-center justify-center"><span class="mr-6">❓</span> Particles Recap</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                            <div class="bg-blue-900/40 p-10 rounded-3xl border-2 border-blue-400/50 text-center shadow-inner">
-                                <p class="text-7xl font-bold mb-6"><span class="bg-blue-600 px-8 py-3 rounded-2xl shadow-md border border-blue-400">ma</span></p>
-                                <p class="text-4xl text-blue-200 font-bold mb-4">Yes-no question</p>
-                                <p class="text-4xl text-gray-200 mt-6">Nǐ hǎo ma?</p>
+                    <!-- Particles -->
+                    <div class="bg-white/10 p-6 rounded-2xl border border-white/20 shadow-md">
+                        <h3 class="text-2xl font-bold mb-4 text-purple-200 text-center">Particles</h3>
+                        <div class="text-center space-y-3">
+                            <div class="bg-blue-800/40 py-2 rounded-lg border border-blue-400/30">
+                                <span class="block text-2xl font-bold text-blue-300">ma</span>
+                                <span class="text-sm">Nǐ hǎo ma? (Yes/no Q)</span>
                             </div>
-                            <div class="bg-green-900/40 p-10 rounded-3xl border-2 border-green-400/50 text-center shadow-inner">
-                                <p class="text-7xl font-bold mb-6"><span class="bg-green-600 px-8 py-3 rounded-2xl shadow-md border border-green-400">ne</span></p>
-                                <p class="text-4xl text-green-200 font-bold mb-4">Bounce-back question</p>
-                                <p class="text-4xl text-gray-200 mt-6">Nǐ ne?</p>
+                            <div class="bg-green-800/40 py-2 rounded-lg border border-green-400/30">
+                                <span class="block text-2xl font-bold text-green-300">ne</span>
+                                <span class="text-sm">Nǐ ne? (Bounce-back Q)</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-24 text-center border-t-4 border-white/10 pt-16">
-                    <p class="text-8xl font-extrabold text-[#e9d5ff] tracking-widest">Xièxie!</p>
+                <div class="mt-12 text-center">
+                    <p class="text-4xl font-bold text-purple-200 tracking-widest">Xièxie!</p>
                 </div>
             </div>
         </section>
@@ -688,15 +804,14 @@
     </main>
 
     <script>
-        // Handles navigation between different sections/tabs
+        // Tab Navigation
         function switchTab(sectionId) {
             document.querySelectorAll('.page-section').forEach(section => {
                 section.classList.remove('active');
             });
             
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active', 'text-white');
-                btn.classList.add('text-[#ddd6fe]'); 
+                btn.classList.remove('active');
             });
 
             const activeSection = document.getElementById(sectionId);
@@ -706,14 +821,13 @@
             
             const activeBtn = document.querySelector(`button[onclick="switchTab('${sectionId}')"]`);
             if (activeBtn) {
-                activeBtn.classList.add('active', 'text-white');
-                activeBtn.classList.remove('text-[#ddd6fe]');
+                activeBtn.classList.add('active');
             }
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Toggles the English line and reveals the Pinyin below
+        // Toggle Text for Dialogues
         function toggleText(element) {
             const englishLine = element.querySelector('.english-line');
             const pinyinContainer = element.querySelector('.pinyin-reveal-container');
@@ -734,7 +848,7 @@
             }
         }
 
-        // Reveals the fill-in-the-blank text upon clicking
+        // Fill-in-the-blank reveal
         function revealAnswer(element, answer) {
             if (!element.classList.contains('revealed')) {
                 element.innerText = answer;
